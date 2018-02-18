@@ -13,6 +13,16 @@ import Foundation
 
 
 public class EthereumKeystoreV3: AbstractKeystore {
+    // Class
+    
+    public func getAddress() -> EthereumAddress? {
+        return self.address
+    }
+    
+    public func unlockAccount(_ password: String) throws {
+        let _ = try self.getKeyData(password
+    }
+    
     // Protocol
     
     public var addresses: [EthereumAddress]? {
@@ -105,7 +115,6 @@ public class EthereumKeystoreV3: AbstractKeystore {
     
     public init? (privateKey: Data, password: String = "BANKEXFOUNDATION") throws {
         guard privateKey.count == 32 else {return nil}
-        guard SECP256K1.verifyPrivateKey(privateKey: privateKey) else {return nil}
         try encryptDataToStorage(password, keyData: privateKey)
     }
     
