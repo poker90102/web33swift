@@ -5,12 +5,7 @@
 //  Created by Petr Korolev on 06/12/2017.
 //  Copyright © 2017 Bankex Foundation. All rights reserved.
 //
-
-#if TARGET_OS_IPHONE
 #import <UIKit/UIKit.h>
-#else
-#import <Cocoa/Cocoa.h>
-#endif
 //! Project version number for web3swift.
 FOUNDATION_EXPORT double web3swiftVersionNumber;
 
