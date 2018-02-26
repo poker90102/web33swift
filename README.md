@@ -9,22 +9,13 @@
 - Swift implementation of [web3.js](https://github.com/ethereum/web3.js/) functionality :zap:
 - Interaction with remote node via JSON RPC :thought_balloon:
 - Smart-contract ABI parsing :book:
-  - ABI deconding 
-  - RLP encoding
 - Interactions (read/write to Smart contracts) :arrows_counterclockwise:
 - Local keystore management (geth compatible)
-- Literally following the standarts:
-  - [BIP32](https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki) HD Wallets: Deterministic Wallet
-  - [BIP39](https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki) (Seed phrases)
-  - [BIP44](https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki) (Key generation prefixes)
-  - [EIP-155](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-155.md) (Replay attacks protection) *enforced!*
-
+- BIP32 HD Wallet (WIP)
 
 ## Check this out
 
-- Private key and transaction were created directly on the iOS device and sent directly to [Infura](https://infura.io) node.
-- Native API
-- Security (as cool as hard wallet! Right out-of-the-box! :box:)
+Private key and transaction were created directly on the iOS device and sent directly to [Infura](https://infura.io) node.
 
 ### Here it is
 [https://rinkeby.etherscan.io/tx/0xc6eca60ecac004a1501a4323a10edb7fa4cd1a0896675f6b51704c84dedad056](https://rinkeby.etherscan.io/tx/0xc6eca60ecac004a1501a4323a10edb7fa4cd1a0896675f6b51704c84dedad056)
@@ -59,7 +50,7 @@ You can try it by yourself by running the example project:
 
 ### Requirements
 
-Web3swift requires Swift 4.0 and iOS 9.0 (although we strongly recommend to always use the latest iOS version for your security).
+Web3swift requires Swift 4.0 and iOS 11.2 or macOS 10.13
 
 
 ### Installation
@@ -68,7 +59,7 @@ web3swift is available through [CocoaPods](http://cocoapods.org). To install
 it, simply add the following line to your Podfile:
 
 ```ruby
-pod 'web3swift'
+pod 'web3swift', git: 'https://github.com/Vaultie/web3swift.git'
 ```
 ### Current functionality
 
