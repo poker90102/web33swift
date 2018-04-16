@@ -19,12 +19,7 @@ extension ABIv2Encoder {
         case let v as BigUInt:
             return v
         case let v as BigInt:
-            switch v.sign {
-            case .minus:
-                return nil
-            case .plus:
-                return v.magnitude
-            }
+            return v.magnitude
         case let v as String:
             let base10 = BigUInt(v, radix: 10)
             if base10 != nil {
@@ -108,11 +103,9 @@ extension ABIv2Encoder {
         case let d as Data:
             return d
         case let d as String:
-            if d.hasHexPrefix() {
-                let hex = Data.fromHex(d)
-                if hex != nil {
-                    return hex
-                }
+            let hex = Data.fromHex(d.stripHexPrefix())
+            if hex != nil {
+                return hex
             }
             let str = d.data(using: .utf8)
             if str != nil {
