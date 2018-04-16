@@ -962,9 +962,8 @@ class web3swiftTests: XCTestCase {
                                        values: [number!] as [AnyObject])
         XCTAssert(data != nil, "failed to encode")
         let expected = "0xfffffffffffff38dd0f10627f5529bdb2c52d4846810af0ac000000000000001"
-        let result = data?.toHexString().lowercased().addHexPrefix()
-        print(result)
-        XCTAssert(result == expected, "failed to encode")
+        print(data?.toHexString().lowercased().addHexPrefix())
+        XCTAssert(data?.toHexString().lowercased().addHexPrefix() == expected, "failed to encode")
     }
 
     func testABIv2encoding5()
