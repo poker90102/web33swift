@@ -83,7 +83,7 @@ public struct JSONRPCresponse: Decodable{
     public var id: Int
     public var jsonrpc = "2.0"
     public var result: Any?
-    public var error: String?
+    public var error: ErrorMessage?
     public var message: String?
     
     enum JSONRPCresponseKeys: String, CodingKey {
@@ -91,27 +91,84 @@ public struct JSONRPCresponse: Decodable{
         case jsonrpc = "jsonrpc"
         case result = "result"
         case error = "error"
-        case message = "message"
     }
     
-    public init(id: Int, jsonrpc: String, result: Any?, error: String?, message: String?) {
+    public init(id: Int, jsonrpc: String, result: Any?, error: ErrorMessage?) {
         self.id = id
         self.jsonrpc = jsonrpc
         self.result = result
         self.error = error
-        self.message = message
     }
+    
+    public struct ErrorMessage: Decodable {
+        public var code: Int
+        public var message: String
+    }
+    
+    internal var decodableTypes: [Decodable.Type] = [[EventLog].self,
+                                  [TransactionDetails].self,
+                                  [TransactionReceipt].self,
+                                  [Block].self,
+                                  [EthereumTransaction].self,
+                                  [String].self,
+                                  [Int].self,
+                                  [Bool].self,
+                                  EventLog.self,
+                                  TransactionDetails.self,
+                                  TransactionReceipt.self,
+                                  Block.self,
+                                  EthereumTransaction.self,
+                                  String.self,
+                                  Int.self,
+                                  Bool.self,
+                                  [String:String].self,
+                                  [String:Int].self]
     
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: JSONRPCresponseKeys.self)
         let id: Int = try container.decode(Int.self, forKey: .id)
         let jsonrpc: String = try container.decode(String.self, forKey: .jsonrpc)
-        let error: String? = try container.decodeIfPresent(String.self, forKey: .error)
-        let message: String? = try container.decodeIfPresent(String.self, forKey: .message)
+        let errorMessage = try container.decodeIfPresent(ErrorMessage.self, forKey: .error)
+        if errorMessage != nil {
+            self.init(id: id, jsonrpc: jsonrpc, result: nil, error: errorMessage)
+            return
+        }
         var result: Any? = nil
+//        for type in decodableTypes {
+//            if let rawValue = try? container.decodeIfPresent(type, forKey: .result) {
+//                result = rawValue
+//                break
+//            }
+//        }
         if let rawValue = try? container.decodeIfPresent(String.self, forKey: .result) {
             result = rawValue
         } else if let rawValue = try? container.decodeIfPresent(Int.self, forKey: .result) {
+            result = rawValue
+        } else if let rawValue = try? container.decodeIfPresent(Bool.self, forKey: .result) {
+            result = rawValue
+        } else if let rawValue = try? container.decodeIfPresent(EventLog.self, forKey: .result) {
+            result = rawValue
+        } else if let rawValue = try? container.decodeIfPresent(EthereumTransaction.self, forKey: .result) {
+            result = rawValue
+        } else if let rawValue = try? container.decodeIfPresent(Block.self, forKey: .result) {
+            result = rawValue
+        } else if let rawValue = try? container.decodeIfPresent(TransactionReceipt.self, forKey: .result) {
+            result = rawValue
+        } else if let rawValue = try? container.decodeIfPresent(TransactionDetails.self, forKey: .result) {
+            result = rawValue
+        } else if let rawValue = try? container.decodeIfPresent([EventLog].self, forKey: .result) {
+            result = rawValue
+        } else if let rawValue = try? container.decodeIfPresent([Block].self, forKey: .result) {
+            result = rawValue
+        } else if let rawValue = try? container.decodeIfPresent([EthereumTransaction].self, forKey: .result) {
+            result = rawValue
+        } else if let rawValue = try? container.decodeIfPresent([TransactionReceipt].self, forKey: .result) {
+            result = rawValue
+        } else if let rawValue = try? container.decodeIfPresent([TransactionDetails].self, forKey: .result) {
+            result = rawValue
+        } else if let rawValue = try? container.decodeIfPresent([Bool].self, forKey: .result) {
+            result = rawValue
+        } else if let rawValue = try? container.decodeIfPresent([Int].self, forKey: .result) {
             result = rawValue
         } else if let rawValue = try? container.decodeIfPresent([String].self, forKey: .result) {
             result = rawValue
@@ -119,8 +176,8 @@ public struct JSONRPCresponse: Decodable{
             result = rawValue
         } else if let rawValue = try? container.decodeIfPresent([String: Int].self, forKey: .result) {
             result = rawValue
-        }
-        self.init(id: id, jsonrpc: jsonrpc, result: result, error: error, message: message)
+        } 
+        self.init(id: id, jsonrpc: jsonrpc, result: result, error: nil)
     }
     
     public func getValue<T>() -> T? {
@@ -208,13 +265,13 @@ public struct JSONRPCresponseBatch: Decodable {
 
 public struct TransactionParameters: Codable {
     public var data: String?
-    public var from: String
+    public var from: String?
     public var gas: String?
     public var gasPrice: String?
     public var to: String?
     public var value: String? = "0x0"
     
-    public init(from _from:String, to _to:String?) {
+    public init(from _from:String?, to _to:String?) {
         from = _from
         to = _to
     }

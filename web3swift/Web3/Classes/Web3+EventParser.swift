@@ -7,8 +7,10 @@
 //
 
 import Foundation
-import Result
+import enum Result.Result
 import BigInt
+import PromiseKit
+fileprivate typealias PromiseResult = PromiseKit.Result
 
 extension web3.web3contract {
     public struct EventParser: EventParserProtocol {
@@ -98,6 +100,128 @@ extension web3.web3contract {
     }
 }
 
+extension web3.web3contract.EventParser {
+    public func parseTransactionPromise(_ transaction: EthereumTransaction) -> Promise<[EventParserResultProtocol]> {
+        let queue = self.web3.requestDispatcher.queue
+        do {
+            guard let hash = transaction.hash else {
+                throw Web3Error.processingError("Failed to get transaction hash")}
+            return self.parseTransactionByHashPromise(hash)
+        } catch {
+            let returnPromise = Promise<[EventParserResultProtocol]>.pending()
+            queue.async {
+                returnPromise.resolver.reject(error)
+            }
+            return returnPromise.promise
+        }
+    }
+    
+    public func parseTransactionByHashPromise(_ hash: Data) -> Promise<[EventParserResultProtocol]> {
+        let queue = self.web3.requestDispatcher.queue
+        return self.web3.eth.getTransactionReceiptPromise(hash).map(on:queue) {receipt throws -> [EventParserResultProtocol] in
+            guard let results = parseReceiptForLogs(receipt: receipt, contract: self.contract, eventName: self.eventName, filter: self.filter) else {
+                    throw Web3Error.processingError("Failed to parse receipt for events")
+            }
+            return results
+        }
+    }
+    
+    public func parseBlockByNumberPromise(_ blockNumber: UInt64) -> Promise<[EventParserResultProtocol]> {
+        let queue = self.web3.requestDispatcher.queue
+        do {
+            if self.filter != nil && (self.filter?.fromBlock != nil || self.filter?.toBlock != nil) {
+                throw Web3Error.inputError("Can not mix parsing specific block and using block range filter")
+            }
+            return self.web3.eth.getBlockByNumberPromise(blockNumber).then(on: queue) {res in
+                return self.parseBlockPromise(res)
+            }
+        } catch {
+            let returnPromise = Promise<[EventParserResultProtocol]>.pending()
+            queue.async {
+                returnPromise.resolver.reject(error)
+            }
+            return returnPromise.promise
+        }
+    }
+    
+    public func parseBlockPromise(_ block: Block) -> Promise<[EventParserResultProtocol]> {
+        let queue = self.web3.requestDispatcher.queue
+        do {
+            guard let bloom = block.logsBloom else {
+                throw Web3Error.processingError("Block doesn't have a bloom filter log")
+            }
+            if self.contract.address != nil {
+                let addressPresent = block.logsBloom?.test(topic: self.contract.address!.addressData)
+                if (addressPresent != true) {
+                    let returnPromise = Promise<[EventParserResultProtocol]>.pending()
+                    queue.async {
+                        returnPromise.resolver.fulfill([EventParserResultProtocol]())
+                    }
+                    return returnPromise.promise
+                }
+            }
+            guard let eventOfSuchTypeIsPresent = self.contract.testBloomForEventPrecence(eventName: self.eventName, bloom: bloom) else {
+                throw Web3Error.processingError("Error processing bloom for events")
+            }
+            if (!eventOfSuchTypeIsPresent) {
+                let returnPromise = Promise<[EventParserResultProtocol]>.pending()
+                queue.async {
+                    returnPromise.resolver.fulfill([EventParserResultProtocol]())
+                }
+                return returnPromise.promise
+            }
+            return Promise {seal in
+                
+                var pendingEvents : [Promise<[EventParserResultProtocol]>] = [Promise<[EventParserResultProtocol]>]()
+                for transaction in block.transactions {
+                    switch transaction {
+                    case .null:
+                        seal.reject(Web3Error.processingError("No information about transactions in block"))
+                        return
+                    case .transaction(let tx):
+                        guard let hash = tx.hash else {
+                            seal.reject(Web3Error.processingError("Failed to get transaction hash"))
+                            return
+                        }
+                        let subresultPromise = self.parseTransactionByHashPromise(hash)
+                        pendingEvents.append(subresultPromise)
+                    case .hash(let hash):
+                        let subresultPromise = self.parseTransactionByHashPromise(hash)
+                        pendingEvents.append(subresultPromise)
+                    }
+                }
+                when(resolved: pendingEvents).done(on: queue){ (results:[PromiseResult<[EventParserResultProtocol]>]) throws in
+                    var allResults = [EventParserResultProtocol]()
+                    for res in results {
+                        guard case .fulfilled(let subresult) = res else {
+                            throw Web3Error.processingError("Failed to parse event for one transaction in block")
+                        }
+                        allResults.append(contentsOf: subresult)
+                    }
+                    seal.fulfill(allResults)
+                }.catch(on:queue) {err in
+                    seal.reject(err)
+                }
+            }
+        } catch {
+//            let returnPromise = Promise<[EventParserResultProtocol]>.pending()
+//            queue.async {
+//                returnPromise.resolver.fulfill([EventParserResultProtocol]())
+//            }
+//            return returnPromise.promise
+            let returnPromise = Promise<[EventParserResultProtocol]>.pending()
+            queue.async {
+                returnPromise.resolver.reject(error)
+            }
+            return returnPromise.promise
+        }
+    }
+    
+}
+
+
+
+
 extension web3.web3contract {
     public func getIndexedEvents(eventName: String?, filter: EventFilter) -> Result<[EventParserResultProtocol], Web3Error> {
         guard let rawContract = self.contract as? ContractV2 else {return Result.failure(Web3Error.nodeError("ABIv1 is not supported for this method"))}
@@ -147,3 +271,7 @@ extension web3.web3contract {
         }
     }
 }
+
+
+
+
