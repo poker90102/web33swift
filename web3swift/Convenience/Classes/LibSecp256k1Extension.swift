@@ -1,11 +1,3 @@
-//
-//  LibSecp256k1Extension.swift
-//  web3swift-iOS
-//
-//  Created by Alexander Vlasov.
-//  Copyright © 2018 Bankex Foundation. All rights reserved.
-//
-
 
 import Foundation
 import secp256k1_ios

@@ -1,11 +1,3 @@
-//
-//  String+Extension.swift
-//  web3swift-iOS
-//
-//  Created by Alexander Vlasov.
-//  Copyright © 2018 Bankex Foundation. All rights reserved.
-//
-
 import Foundation
 
 extension String {

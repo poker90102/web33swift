@@ -9,7 +9,6 @@
 import Foundation
 import BigInt
 
-/// Global counter object to enumerate JSON RPC requests.
 public struct Counter {
     public static var counter = UInt64(1)
     public static var lockQueue = DispatchQueue(label: "counterQueue")
@@ -23,7 +22,7 @@ public struct Counter {
     }
 }
 
-/// JSON RPC request structure for serialization and deserialization purposes.
+
 public struct JSONRPCrequest: Encodable {
     var jsonrpc: String = "2.0"
     var method: JSONRPCmethod?
@@ -56,7 +55,6 @@ public struct JSONRPCrequest: Encodable {
     }
 }
 
-/// JSON RPC batch request structure for serialization and deserialization purposes.
 public struct JSONRPCrequestBatch: Encodable {
     var requests: [JSONRPCrequest]
     
@@ -66,7 +64,6 @@ public struct JSONRPCrequestBatch: Encodable {
     }
 }
 
-/// JSON RPC response structure for serialization and deserialization purposes.
 public struct JSONRPCresponse: Decodable{
     public var id: Int
     public var jsonrpc = "2.0"
@@ -156,9 +153,6 @@ public struct JSONRPCresponse: Decodable{
         self.init(id: id, jsonrpc: jsonrpc, result: result, error: nil)
     }
     
-    /// Get the JSON RCP reponse value by deserializing it into some native <T> class.
-    ///
-    /// Returns nil if serialization fails
     public func getValue<T>() -> T? {
         let slf = T.self
         if slf == BigUInt.self {
@@ -210,12 +204,28 @@ public struct JSONRPCresponse: Decodable{
             }
             return values as? T
         }
+//        else if slf == [String].self {
+//            guard let value = self.result as? T else {return nil}
+//            return value
+//        } else if slf == [Int].self {
+//            guard let value = self.result as? T else {return nil}
+//            return value
+//        } else if slf == [String: String].self{
+//            guard let value = self.result as? T else {return nil}
+//            return value
+//        }
+//        else if slf == [String: AnyObject].self{
+//            guard let value = self.result as? T else {return nil}
+//            return value
+//        } else if slf == [String: Any].self{
+//            guard let value = self.result as? T else {return nil}
+//            return value
+//        }
         guard let value = self.result as? T  else {return nil}
         return value
     }
 }
 
-/// JSON RPC batch response structure for serialization and deserialization purposes.
 public struct JSONRPCresponseBatch: Decodable {
     var responses: [JSONRPCresponse]
     
@@ -226,7 +236,6 @@ public struct JSONRPCresponseBatch: Decodable {
     }
 }
 
-/// Transaction parameters JSON structure for interaction with Ethereum node.
 public struct TransactionParameters: Codable {
     public var data: String?
     public var from: String?
@@ -241,7 +250,6 @@ public struct TransactionParameters: Codable {
     }
 }
 
-/// Event filter parameters JSON structure for interaction with Ethereum node.
 public struct EventFilterParameters: Codable {
     public var fromBlock: String?
     public var toBlock: String?
@@ -249,7 +257,6 @@ public struct EventFilterParameters: Codable {
     public var address: [String?]?
 }
 
-/// Raw JSON RCP 2.0 internal flattening wrapper.
 public struct JSONRPCparams: Encodable{
     public var params = [Any]()
     

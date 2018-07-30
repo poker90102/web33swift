@@ -22,8 +22,7 @@ public class JSONRPCrequestDispatcher {
         self.provider = provider
         self.queue = queue
         self.policy = policy
-        self.lockQueue = DispatchQueue.init(label: "batchingQueue") // serial simplest queue
-//        DispatchQueue(label: "batchingQueue", qos: .userInitiated)
+        self.lockQueue = DispatchQueue(label: "batchingQueue", qos: .userInitiated)
         self.batches.append(Batch(provider: self.provider, capacity: 32, queue: self.queue, lockQueue: self.lockQueue))
     }
     
@@ -42,7 +41,7 @@ public class JSONRPCrequestDispatcher {
             }
             let requestID = request.id
             let promiseToReturn = Promise<JSONRPCresponse>.pending()
-            self.lockQueue.async {
+            self.queue.async {
                 if self.promisesDict[requestID] != nil {
                     promiseToReturn.resolver.reject(Web3Error.processingError("Request ID collision"))
                 }
