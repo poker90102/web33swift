@@ -8,7 +8,6 @@
 
 import Foundation
 
-@available(*, deprecated)
 public class BlockExplorer {
     public var urlStringList: String
     
