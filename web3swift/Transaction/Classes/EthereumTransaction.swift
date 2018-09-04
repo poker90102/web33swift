@@ -274,7 +274,7 @@ public struct EthereumTransaction: CustomStringConvertible {
         return transaction
     }
     
-    public static func fromRaw(_ raw: Data) -> EthereumTransaction? {
+    static func fromRaw(_ raw: Data) -> EthereumTransaction? {
         guard let totalItem = RLP.decode(raw) else {return nil}
         guard let rlpItem = totalItem[0] else {return nil}
         switch rlpItem.count {
