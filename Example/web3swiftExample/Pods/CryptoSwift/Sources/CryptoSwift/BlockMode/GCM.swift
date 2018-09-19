@@ -66,7 +66,7 @@ public final class GCM: BlockMode {
         self.authenticationTag = authenticationTag
     }
 
-    public func worker(blockSize: Int, cipherOperation: @escaping CipherOperationOnBlock) throws -> CipherModeWorker {
+    public func worker(blockSize: Int, cipherOperation: @escaping CipherOperationOnBlock) throws -> BlockModeWorker {
         if iv.isEmpty {
             throw Error.invalidInitializationVector
         }

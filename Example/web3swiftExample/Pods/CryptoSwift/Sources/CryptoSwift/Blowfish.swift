@@ -34,8 +34,8 @@ public final class Blowfish {
 
     private let blockMode: BlockMode
     private let padding: Padding
-    private var decryptWorker: CipherModeWorker!
-    private var encryptWorker: CipherModeWorker!
+    private var decryptWorker: BlockModeWorker!
+    private var encryptWorker: BlockModeWorker!
 
     private let N = 16 // rounds
     private var P: Array<UInt32>

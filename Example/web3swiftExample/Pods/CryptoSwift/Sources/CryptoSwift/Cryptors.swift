@@ -21,12 +21,14 @@ import Glibc
 
 /// Worker cryptor/decryptor of `Updatable` types
 public protocol Cryptors: class {
+    associatedtype Encryptor: Cryptor
+    associatedtype Decryptor: Cryptor
 
     /// Cryptor suitable for encryption
-    func makeEncryptor() throws -> Cryptor & Updatable
+    func makeEncryptor() throws -> Encryptor
 
     /// Cryptor suitable for decryption
-    func makeDecryptor() throws -> Cryptor & Updatable
+    func makeDecryptor() throws -> Decryptor
 
     /// Generate array of random bytes. Helper function.
     static func randomIV(_ blockSize: Int) -> Array<UInt8>

@@ -9,7 +9,7 @@
 import Foundation
 import BigInt
 
-public extension ABIv2 {
+extension ABIv2 {
     // JSON Decoding
     public struct Input: Decodable {
         var name: String?
@@ -48,16 +48,16 @@ public extension ABIv2 {
         case event(Event)
         
         public struct InOut {
-            public let name: String
-            public let type: ParameterType
+            let name: String
+            let type: ParameterType
         }
         
         public struct Function {
-            public let name: String?
-            public let inputs: [InOut]
-            public let outputs: [InOut]
-            public let constant: Bool
-            public let payable: Bool
+            let name: String?
+            let inputs: [InOut]
+            let outputs: [InOut]
+            let constant: Bool
+            let payable: Bool
         }
         
         public struct Constructor {
