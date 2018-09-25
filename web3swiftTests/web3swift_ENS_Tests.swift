@@ -66,42 +66,9 @@ class web3swift_ENS_Tests: XCTestCase {
         }
     }
     
-    func testOwner() {
-        let web = web3(provider: InfuraProvider(Networks.Mainnet)!)
-        var ens = ENS(web3: web)
-        let domain = "somename.eth"
-        guard case .success(let result) = ens.owner(node: domain) else { XCTAssert(false); return }
-        XCTAssertEqual("0xc67247454e720328714c4e17bec7640572657bee", result.address.lowercased())
+    func testName() {
+        //TODO
     }
-    
-    func testTTL() {
-        let web = web3(provider: InfuraProvider(Networks.Mainnet)!)
-        var ens = ENS(web3: web)
-        let domain = "somename.eth"
-        guard case .success(let result) = ens.ttl(node: domain) else { XCTAssert(false); return }
-        print(result)
-    }
-    
-    func testGetAddress() {
-        let web = web3(provider: InfuraProvider(Networks.Mainnet)!)
-        var ens = ENS(web3: web)
-        let domain = "somename.eth"
-        guard case .success(let address) = ens.getAddress(domain) else { XCTAssert(false); return }
-        XCTAssertEqual(address.address.lowercased(), "0x3487acfb1479ad1df6c0eb56ae743d34897798ac")
-    }
-    
-    func testGetPubkey() {
-        let web = web3(provider: InfuraProvider(Networks.Mainnet)!)
-        var ens = ENS(web3: web)
-        let domain = "somename.eth"
-        guard case .success(let point) = ens.getPubkey(domain: domain) else { XCTAssert(false); return }
-        XCTAssert(point.x == "0x0000000000000000000000000000000000000000000000000000000000000000")
-        XCTAssert(point.y == "0x0000000000000000000000000000000000000000000000000000000000000000")
-    }
-    
-    
-
-    
     
     
     
