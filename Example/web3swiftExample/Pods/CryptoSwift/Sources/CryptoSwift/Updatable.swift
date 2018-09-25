@@ -41,10 +41,6 @@ extension Updatable {
         }
     }
 
-    public mutating func update(withBytes bytes: ArraySlice<UInt8>, isLast: Bool = false) throws -> Array<UInt8> {
-        return try update(withBytes: bytes, isLast: isLast)
-    }
-
     public mutating func update(withBytes bytes: Array<UInt8>, isLast: Bool = false) throws -> Array<UInt8> {
         return try update(withBytes: bytes.slice, isLast: isLast)
     }

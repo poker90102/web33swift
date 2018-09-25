@@ -94,6 +94,7 @@ public struct ContractV2:ContractProtocol {
             }
         }
         catch{
+            print(error)
             return nil
         }
     }

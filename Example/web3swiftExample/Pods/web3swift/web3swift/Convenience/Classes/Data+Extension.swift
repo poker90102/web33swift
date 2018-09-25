@@ -7,7 +7,8 @@
 //
 
 import Foundation
-//import libsodium
+import libsodium
+
 
 public extension Data {
     
@@ -35,9 +36,8 @@ public extension Data {
     public static func zero(_ data: inout Data) {
         let count = data.count
         data.withUnsafeMutableBytes { (dataPtr: UnsafeMutablePointer<UInt8>) in
-//            var rawPtr = UnsafeMutableRawPointer(dataPtr)
-            //            sodium_memzero(rawPtr, count)
-            dataPtr.initialize(repeating: 0, count: count)
+            let rawPtr = UnsafeMutableRawPointer(dataPtr)
+            sodium_memzero(rawPtr, count)
         }
     }
     public static func randomBytes(length: Int) -> Data? {

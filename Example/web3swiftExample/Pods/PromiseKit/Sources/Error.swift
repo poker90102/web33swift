@@ -2,7 +2,7 @@ import Foundation
 
 public enum PMKError: Error {
     /**
-     The completionHandler with form `(T?, Error?)` was called with `(nil, nil)`.
+     The completionHandler with form (T?, ErrorType?) was called with (nil, nil)
      This is invalid as per Cocoa/Apple calling conventions.
      */
     case invalidCallingConvention
@@ -26,11 +26,7 @@ public enum PMKError: Error {
     /// `nil` was returned from `compactMap`
     case compactMap(Any, Any.Type)
 
-    /**
-     The lastValue or firstValue of a sequence was requested but the sequence was empty.
-
-     Also used if all values of this collection failed the test passed to `firstValue(where:)`.
-     */
+    /// the lastValue or firstValue of a sequence was requested but the sequence was empty
     case emptySequence
 }
 
