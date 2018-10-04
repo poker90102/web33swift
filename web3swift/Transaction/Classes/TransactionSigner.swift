@@ -9,7 +9,6 @@
 import Foundation
 import Result
 import BigInt
-import secp256k1_swift
 
 public enum TransactionSignerError: Error {
     case signatureError(String)
