@@ -11,7 +11,6 @@ import XCTest
 import CryptoSwift
 import BigInt
 import Result
-import secp256k1_ios
 
 @testable import web3swift_iOS
 
@@ -105,6 +104,42 @@ class web3swift_local_node_Tests: XCTestCase {
     //            print(result)
     //        }
     //    }
-
-
+    func testTxPoolStatus() {
+        let web3 = Web3.new(URL.init(string: "http://127.0.0.1:8545")!)!
+        let result = web3.txPool.getStatus()
+        
+        switch result {
+        case .failure(let error):
+            print(error)
+            XCTFail()
+        case .success(let response):
+            print(response)
+        }
+    }
+    
+    func testTxPoolInspect() {
+        let web3 = Web3.new(URL.init(string: "http://127.0.0.1:8545")!)!
+        let result = web3.txPool.getInspect()
+        
+        switch result {
+        case .failure(let error):
+            print(error)
+            XCTFail()
+        case .success(let response):
+            print(response)
+        }
+    }
+    
+    func testTxPoolContent() {
+        let web3 = Web3.new(URL.init(string: "http://127.0.0.1:8545")!)!
+        let result = web3.txPool.getContent()
+        
+        switch result {
+        case .failure(let error):
+            print(error)
+            XCTFail()
+        case .success(let response):
+            print(response)
+        }
+    }
 }
