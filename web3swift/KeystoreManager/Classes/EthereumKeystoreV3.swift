@@ -1,7 +1,9 @@
+//
+//  EthereumKeystoreV3.swift
 //  web3swift
 //
-//  Created by Alex Vlasov.
-//  Copyright © 2018 Alex Vlasov. All rights reserved.
+//  Created by Alexander Vlasov on 18.12.2017.
+//  Copyright © 2017 Bankex Foundation. All rights reserved.
 //
 
 import Foundation

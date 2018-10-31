@@ -1,12 +1,15 @@
-//  web3swift
 //
-//  Created by Alex Vlasov.
-//  Copyright © 2018 Alex Vlasov. All rights reserved.
+//  web3swift_EIP67_Tests.swift
+//  web3swift-iOS_Tests
+//
+//  Created by Anton Grigoriev on 02.07.2018.
+//  Copyright © 2018 Bankex Foundation. All rights reserved.
 //
 
 import XCTest
 import CryptoSwift
 import BigInt
+import Result
 
 @testable import web3swift_iOS
 

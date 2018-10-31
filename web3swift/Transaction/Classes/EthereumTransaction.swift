@@ -1,7 +1,9 @@
+//
+//  EthereumTransaction.swift
 //  web3swift
 //
-//  Created by Alex Vlasov.
-//  Copyright © 2018 Alex Vlasov. All rights reserved.
+//  Created by Alexander Vlasov on 05.12.2017.
+//  Copyright © 2017 Alexander Vlasov. All rights reserved.
 //
 
 import Foundation
@@ -319,14 +321,12 @@ public struct EthereumTransaction: CustomStringConvertible {
         }
     }
     
-    static func createRequest(method: JSONRPCmethod, transaction: EthereumTransaction, transactionOptions: TransactionOptions?) -> JSONRPCrequest? {
-        let onBlock = transactionOptions?.callOnBlock?.stringValue
+    static func createRequest(method: JSONRPCmethod, transaction: EthereumTransaction, onBlock: String? = nil, options: Web3Options?) -> JSONRPCrequest? {
         var request = JSONRPCrequest()
         request.method = method
-        let from = transactionOptions?.from
 //        guard let from = options?.from else {return nil}
-        guard var txParams = transaction.encodeAsDictionary(from: from) else {return nil}
-        if method == .estimateGas || transactionOptions?.gasLimit == nil {
+        guard var txParams = transaction.encodeAsDictionary(from: options?.from) else {return nil}
+        if method == .estimateGas || options?.gasLimit == nil {
             txParams.gas = nil
         }
         var params = [txParams] as Array<Encodable>

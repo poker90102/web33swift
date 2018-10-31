@@ -1,7 +1,9 @@
+//
+//  BIP32Keystore.swift
 //  web3swift
 //
-//  Created by Alex Vlasov.
-//  Copyright © 2018 Alex Vlasov. All rights reserved.
+//  Created by Alexander Vlasov on 11.01.2018.
+//  Copyright © 2018 Bankex Foundation. All rights reserved.
 //
 
 import Foundation
@@ -44,6 +46,7 @@ public class BIP32Keystore: AbstractKeystore {
     // --------------
     
     public var keystoreParams: KeystoreParamsBIP32?
+//    public var mnemonics: String?
     public var paths: [String:EthereumAddress] = [String:EthereumAddress]()
     public var rootPrefix: String
     public convenience init?(_ jsonString: String) {

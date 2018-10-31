@@ -1,16 +1,19 @@
 //
-//  Created by Alex Vlasov on 25/10/2018.
-//  Copyright © 2018 Alex Vlasov. All rights reserved.
+//  ABIv2ParameterTypes.swift
+//  web3swift
+//
+//  Created by Alexander Vlasov on 02.04.2018.
+//  Copyright © 2018 Bankex Foundation. All rights reserved.
 //
 
 import Foundation
 import BigInt
 import EthereumAddress
 
-extension ABI.Element {
+extension ABIv2.Element {
 
     /// Specifies the type that parameters in a contract have.
-    public enum ParameterType: ABIElementPropertiesProtocol {
+    public enum ParameterType: ABIv2ElementPropertiesProtocol {
         case uint(bits: UInt64)
         case int(bits: UInt64)
         case address
@@ -68,7 +71,7 @@ extension ABI.Element {
             }
         }
         
-        var subtype: ABI.Element.ParameterType? {
+        var subtype: ABIv2.Element.ParameterType? {
             switch self {
             case .array(type: let type, length: _):
                 return type
@@ -127,7 +130,7 @@ extension ABI.Element {
             }
         }
         
-        var arraySize: ABI.Element.ArraySize {
+        var arraySize: ABIv2.Element.ArraySize {
             switch self {
             case .array(type: _, length: let length):
                 if (length == 0) {
@@ -143,8 +146,8 @@ extension ABI.Element {
     
 }
 
-extension ABI.Element.ParameterType: Equatable {
-    public static func ==(lhs: ABI.Element.ParameterType, rhs: ABI.Element.ParameterType) -> Bool {
+extension ABIv2.Element.ParameterType: Equatable {
+    public static func ==(lhs: ABIv2.Element.ParameterType, rhs: ABIv2.Element.ParameterType) -> Bool {
         switch (lhs, rhs) {
         case let (.uint(length1), .uint(length2)):
             return length1 == length2
@@ -170,7 +173,7 @@ extension ABI.Element.ParameterType: Equatable {
     }
 }
 
-extension ABI.Element.Function {
+extension ABIv2.Element.Function {
     public var signature: String {
         return "\(name ?? "")(\(inputs.map { $0.type.abiRepresentation }.joined(separator: ",")))"
     }
@@ -185,7 +188,7 @@ extension ABI.Element.Function {
 }
 
 // MARK: - Event topic
-extension ABI.Element.Event {
+extension ABIv2.Element.Event {
     public var signature: String {
         return "\(name)(\(inputs.map { $0.type.abiRepresentation }.joined(separator: ",")))"
     }
@@ -196,7 +199,7 @@ extension ABI.Element.Event {
 }
 
 
-extension ABI.Element.ParameterType: ABIEncoding {
+extension ABIv2.Element.ParameterType: ABIv2Encoding {
     public var abiRepresentation: String {
         switch self {
         case .uint(let bits):
@@ -228,7 +231,7 @@ extension ABI.Element.ParameterType: ABIEncoding {
     }
 }
 
-extension ABI.Element.ParameterType: ABIValidation {
+extension ABIv2.Element.ParameterType: ABIv2Validation {
     public var isValid: Bool {
         switch self {
         case .uint(let bits), .int(let bits):

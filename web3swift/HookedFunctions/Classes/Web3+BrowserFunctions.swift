@@ -1,7 +1,9 @@
-//  web3swift
 //
-//  Created by Alex Vlasov.
-//  Copyright © 2018 Alex Vlasov. All rights reserved.
+//  Web3+BrowserFunctions.swift
+//  web3swift-iOS
+//
+//  Created by Alexander Vlasov on 26.02.2018.
+//  Copyright © 2018 Bankex Foundation. All rights reserved.
 //
 
 import Foundation
@@ -12,11 +14,12 @@ import EthereumAddress
 extension web3.BrowserFunctions {
     
     public func getAccounts() -> [String]? {
-        do {
-            let accounts = try self.web3.eth.getAccounts()
+        let result = self.web3.eth.getAccounts()
+        switch result {
+        case .failure(_):
+            return nil
+        case .success(let accounts):
             return accounts.compactMap({$0.address})
-        } catch {
-            return [String]()
         }
     }
     
@@ -111,22 +114,21 @@ extension web3.BrowserFunctions {
         return self.prepareTxForApproval(transaction, options: options)
     }
     
-    public func prepareTxForApproval(_ trans: EthereumTransaction, options  opts: Web3Options) throws -> (transaction: EthereumTransaction?, options: Web3Options?) {
-        do {
-            var transaction = trans
-            var options = opts
-            guard let _ = options.from else {return (nil, nil)}
-            let gasPrice = try self.web3.eth.getGasPrice()
-            transaction.gasPrice = gasPrice
-            options.gasPrice = gasPrice
-            guard let gasEstimate = self.estimateGas(transaction, options: options) else {return (nil, nil)}
-            transaction.gasLimit = gasEstimate
-            options.gasLimit = gasEstimate
-            print(transaction)
-            return (transaction, options)
-        } catch {
+    public func prepareTxForApproval(_ trans: EthereumTransaction, options  opts: Web3Options) -> (transaction: EthereumTransaction?, options: Web3Options?) {
+        var transaction = trans
+        var options = opts
+        guard let _ = options.from else {return (nil, nil)}
+        let gasPriceResult = self.web3.eth.getGasPrice()
+        if case .failure(_) = gasPriceResult {
             return (nil, nil)
         }
+        transaction.gasPrice = gasPriceResult.value!
+        options.gasPrice = gasPriceResult.value!
+        guard let gasEstimate = self.estimateGas(transaction, options: options) else {return (nil, nil)}
+        transaction.gasLimit = gasEstimate
+        options.gasLimit = gasEstimate
+        print(transaction)
+        return (transaction, options)
     }
     
     public func signTransaction(_ transactionJSON: [String: Any], password: String = "web3swift") -> String? {

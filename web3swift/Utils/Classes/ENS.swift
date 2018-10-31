@@ -1,11 +1,11 @@
-//  web3swift
 //
-//  Created by Alex Vlasov.
-//  Copyright © 2018 Alex Vlasov. All rights reserved.
+//  ENS.swift
+//  web3swift-iOS
 //
 
 import Foundation
 import BigInt
+import Result
 import EthereumAddress
 
 public class ENS {

@@ -1,7 +1,9 @@
+//
+//  Web3Instnace+ObjectiveC.swift
 //  web3swift
 //
-//  Created by Alex Vlasov.
-//  Copyright © 2018 Alex Vlasov. All rights reserved.
+//  Created by Alexander Vlasov on 08.08.2018.
+//  Copyright © 2018 Bankex Foundation. All rights reserved.
 //
 
 import Foundation

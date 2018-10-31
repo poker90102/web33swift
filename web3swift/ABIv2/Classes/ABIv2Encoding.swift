@@ -1,17 +1,20 @@
 //
-//  Created by Alex Vlasov on 25/10/2018.
-//  Copyright © 2018 Alex Vlasov. All rights reserved.
+//  ABIv2Encoding.swift
+//  web3swift
+//
+//  Created by Alexander Vlasov on 03.04.2018.
+//  Copyright © 2018 Bankex Foundation. All rights reserved.
 //
 
 import Foundation
 import BigInt
 import EthereumAddress
 
-public struct ABIEncoder {
+public struct ABIv2Encoder {
     
 }
 
-extension ABIEncoder {
+extension ABIv2Encoder {
     public static func convertToBigUInt(_ value: AnyObject) -> BigUInt? {
         switch value {
         case let v as BigUInt:
@@ -134,15 +137,15 @@ extension ABIEncoder {
     }
     
     
-    public static func encode(types: [ABI.Element.InOut], values: [AnyObject]) -> Data? {
+    public static func encode(types: [ABIv2.Element.InOut], values: [AnyObject]) -> Data? {
         guard types.count == values.count else {return nil}
-        let params = types.compactMap { (el) -> ABI.Element.ParameterType in
+        let params = types.compactMap { (el) -> ABIv2.Element.ParameterType in
             return el.type
         }
         return encode(types: params, values: values)
     }
     
-    public static func encode(types: [ABI.Element.ParameterType], values: [AnyObject]) -> Data? {
+    public static func encode(types: [ABIv2.Element.ParameterType], values: [AnyObject]) -> Data? {
         guard types.count == values.count else {return nil}
         var tails = [Data]()
         var heads = [Data]()
@@ -180,7 +183,7 @@ extension ABIEncoder {
         return headsConcatenated + tailsConcatenated
     }
     
-    public static func encodeSingleType(type: ABI.Element.ParameterType, value: AnyObject) -> Data? {
+    public static func encodeSingleType(type: ABIv2.Element.ParameterType, value: AnyObject) -> Data? {
         switch type {
         case .uint(_):
             if let biguint = convertToBigUInt(value) {

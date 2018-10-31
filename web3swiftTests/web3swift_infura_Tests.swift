@@ -1,73 +1,93 @@
-//  web3swift
 //
-//  Created by Alex Vlasov.
-//  Copyright © 2018 Alex Vlasov. All rights reserved.
+//  web3swiftInfuraTests.swift
+//  web3swift-iOS_Tests
+//
+//  Created by Георгий Фесенко on 02/07/2018.
+//  Copyright © 2018 Bankex Foundation. All rights reserved.
 //
 
 import XCTest
-import EthereumAddress
 
 @testable import web3swift_iOS
-
 class web3swift_infura_Tests: XCTestCase {
     
     func testGetBalance() {
-        do {
-            let web3 = Web3.InfuraMainnetWeb3()
-            let address = EthereumAddress("0xe22b8979739D724343bd002F9f432F5990879901")!
-            let balance = try web3.eth.getBalance(address: address)
-            let balString = Web3.Utils.formatToEthereumUnits(balance, toUnits: .eth, decimals: 3)
-            print(balString!)
-        } catch {
+        let web3 = Web3.InfuraMainnetWeb3()
+        let address = EthereumAddress("0xe22b8979739D724343bd002F9f432F5990879901")!
+        let response = web3.eth.getBalance(address: address)
+        switch response {
+        case .failure(_):
             XCTFail()
+        case .success(let result):
+            let balance = result
+            let balString = Web3.Utils.formatToEthereumUnits(balance, toUnits: .eth, decimals: 3)
+            print(balString)
         }
     }
     
     func testGetBlockByHash() {
-        do {
-            let web3 = Web3.InfuraMainnetWeb3()
-            let result = try web3.eth.getBlockByHash("0x6d05ba24da6b7a1af22dc6cc2a1fe42f58b2a5ea4c406b19c8cf672ed8ec0695", fullTransactions: true)
-            print(result)
-        } catch {
+        let web3 = Web3.InfuraMainnetWeb3()
+        let response = web3.eth.getBlockByHash("0x6d05ba24da6b7a1af22dc6cc2a1fe42f58b2a5ea4c406b19c8cf672ed8ec0695", fullTransactions: true)
+        switch response {
+        case .failure(_):
             XCTFail()
+        case .success(let result):
+            print(result)
         }
     }
     
-    func testGetBlockByNumber1() throws {
+    func testGetBlockByNumber1() {
         let web3 = Web3.InfuraMainnetWeb3()
-        let result = try web3.eth.getBlockByNumber("latest", fullTransactions: true)
-        print(result)
+        let response = web3.eth.getBlockByNumber("latest", fullTransactions: true)
+        switch response {
+        case .failure(_):
+            XCTFail()
+        case .success(let result):
+            print(result)
+        }
     }
     
-    func testGetBlockByNumber2() throws {
+    func testGetBlockByNumber2() {
         let web3 = Web3.InfuraMainnetWeb3()
-        let result = try web3.eth.getBlockByNumber(UInt64(5184323), fullTransactions: true)
-        print(result)
-        let transactions = result.transactions
-        for transaction in transactions {
-            switch transaction {
-            case .transaction(let tx):
-                print(String(describing: tx))
-            default:
-                break
+        let response = web3.eth.getBlockByNumber(UInt64(5184323), fullTransactions: true)
+        switch response {
+        case .failure(_):
+            XCTFail()
+        case .success(let result):
+            print(result)
+            let transactions = result.transactions
+            for transaction in transactions {
+                switch transaction {
+                case .transaction(let tx):
+                    print(String(describing: tx))
+                default:
+                    break
+                }
             }
         }
     }
     
     func testGetBlockByNumber3() {
-        do {
-            let web3 = Web3.InfuraMainnetWeb3()
-            let _ = try web3.eth.getBlockByNumber(UInt64(1000000000), fullTransactions: true)
+        let web3 = Web3.InfuraMainnetWeb3()
+        let response = web3.eth.getBlockByNumber(UInt64(1000000000), fullTransactions: true)
+        switch response {
+        case .failure(_):
+            break
+        case .success(_):
             XCTFail()
-        } catch {
-            
         }
     }
     
-    func testGasPrice() throws {
+    func testGasPrice() {
         let web3 = Web3.InfuraMainnetWeb3()
-        let response = try web3.eth.getGasPrice()
-        print(response)
+        let result = web3.eth.getGasPrice()
+        switch result {
+        case .failure(let error):
+            print(error)
+            XCTFail()
+        case .success(let response):
+            print(response)
+        }
     }
 
     
