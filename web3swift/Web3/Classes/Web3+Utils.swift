@@ -1,9 +1,7 @@
-//
-//  web3utils.swift
 //  web3swift
 //
-//  Created by Alexander Vlasov on 18.12.2017.
-//  Copyright © 2017 Bankex Foundation. All rights reserved.
+//  Created by Alex Vlasov.
+//  Copyright © 2018 Alex Vlasov. All rights reserved.
 //
 
 import Foundation
@@ -715,7 +713,11 @@ extension Web3.Utils {
                         } else {
                             remainingDigits = String(fullPaddedRemainder[firstDigit+1 ..< fullPaddedRemainder.count])
                         }
-                        fullRemainder = firstDecimalUnit + decimalSeparator + remainingDigits
+                        if remainingDigits != "" {
+                            fullRemainder = firstDecimalUnit + decimalSeparator + remainingDigits
+                        } else {
+                            fullRemainder = firstDecimalUnit
+                        }
                         firstDigit = firstDigit + 1;
                         break
                     }
