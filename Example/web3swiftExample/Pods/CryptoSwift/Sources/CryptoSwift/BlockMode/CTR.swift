@@ -41,7 +41,7 @@ public struct CTR: StreamMode {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-struct CTRModeWorker: StreamModeWorker, SeekableModeWorker, CounterModeWorker {
+struct CTRModeWorker: StreamModeWorker, CounterModeWorker {
     typealias Counter = CTRCounter
 
     final class CTRCounter {

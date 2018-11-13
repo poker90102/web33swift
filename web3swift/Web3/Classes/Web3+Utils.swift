@@ -1,7 +1,9 @@
+//
+//  web3utils.swift
 //  web3swift
 //
-//  Created by Alex Vlasov.
-//  Copyright © 2018 Alex Vlasov. All rights reserved.
+//  Created by Alexander Vlasov on 18.12.2017.
+//  Copyright © 2017 Bankex Foundation. All rights reserved.
 //
 
 import Foundation
@@ -713,11 +715,7 @@ extension Web3.Utils {
                         } else {
                             remainingDigits = String(fullPaddedRemainder[firstDigit+1 ..< fullPaddedRemainder.count])
                         }
-                        if remainingDigits != "" {
-                            fullRemainder = firstDecimalUnit + decimalSeparator + remainingDigits
-                        } else {
-                            fullRemainder = firstDecimalUnit
-                        }
+                        fullRemainder = firstDecimalUnit + decimalSeparator + remainingDigits
                         firstDigit = firstDigit + 1;
                         break
                     }
@@ -821,9 +819,5 @@ extension Web3.Utils {
     
     public static func hexToBigUInt(_ string: String) -> BigUInt? {
         return BigUInt(string.stripHexPrefix(), radix: 16)
-    }
-    
-    public static func randomBytes(length: Int) -> Data? {
-        return Data.randomBytes(length:length)
     }
 }

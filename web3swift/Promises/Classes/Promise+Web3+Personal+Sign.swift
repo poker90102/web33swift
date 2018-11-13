@@ -1,7 +1,9 @@
+//
+//  Promise+Web3+Personal+Sign.swift
 //  web3swift
 //
-//  Created by Alex Vlasov.
-//  Copyright © 2018 Alex Vlasov. All rights reserved.
+//  Created by Alexander Vlasov on 18.06.2018.
+//  Copyright © 2018 Bankex Foundation. All rights reserved.
 //
 
 import Foundation
@@ -11,7 +13,7 @@ import EthereumAddress
 
 extension web3.Personal {
     
-    public func signPersonalMessagePromise(message: Data, from: EthereumAddress, password:String = "web3swift") -> Promise<Data> {
+    func signPersonalMessagePromise(message: Data, from: EthereumAddress, password:String = "web3swift") -> Promise<Data> {
         let queue = web3.requestDispatcher.queue
         do {
             if self.web3.provider.attachedKeystoreManager == nil {
