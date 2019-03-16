@@ -2,12 +2,13 @@
 
 # web3swift
 
-[![Version](https://img.shields.io/cocoapods/v/web3swift.svg?style=flat)](http://cocoapods.org/pods/web3swift)
-[![License](https://img.shields.io/cocoapods/l/web3swift.svg?style=flat)](http://cocoapods.org/pods/web3swift)
-[![Platform](https://img.shields.io/cocoapods/p/web3swift.svg?style=flat)](http://cocoapods.org/pods/web3swift)
+[![Build Status](https://travis-ci.com/matter-labs/web3swift.svg?branch=develop)](https://travis-ci.com/matter-labs/web3swift)
 [![Swift](https://img.shields.io/badge/Swift-4.0-orange.svg?style=flat)](https://developer.apple.com/swift/)
+[![Platform](https://img.shields.io/cocoapods/p/web3swift.svg?style=flat)](http://cocoapods.org/pods/web3swift)
+[![CocoaPods Compatible](https://img.shields.io/cocoapods/v/web3swift.svg?style=flat)](http://cocoapods.org/pods/web3swift)
+[![Carthage Compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
+[![License](https://img.shields.io/cocoapods/l/web3swift.svg?style=flat)](http://cocoapods.org/pods/web3swift)
 [![support](https://brianmacdonald.github.io/Ethonate/svg/eth-support-blue.svg)](https://brianmacdonald.github.io/Ethonate/address#0xe22b8979739d724343bd002f9f432f5990879901)
-[![Build Status](https://travis-ci.com/matterinc/web3swift.svg?branch=develop)](https://travis-ci.com/matterinc/web3swift)
 [![Stackoverflow](https://img.shields.io/badge/stackoverflow-ask-blue.svg)](https://stackoverflow.com/questions/tagged/web3swift)
 
 **web3swift** is your toolbelt for any kind interactions with Ethereum network.
@@ -249,7 +250,7 @@ If you believe you have identified a security vulnerability with web3swift, you 
 
 ## Donations
 
-[The Matters](https://github.com/orgs/matterinc/people) are charged with open-sorсe and do not require money for using their web3swift lib.
+[The Matters](https://github.com/orgs/matterinc/people) are charged with open-sourсe and do not require money for using their web3swift lib.
 We want to continue to do everything we can to move the needle forward.
 If you use any of our libraries for work, see if your employers would be interested in donating. Any amount you can donate today to help us reach our goal would be greatly appreciated.
 
