@@ -16,7 +16,7 @@ public class JSONRPCrequestDispatcher {
     private var lockQueue: DispatchQueue
     private var batches: [Batch] = [Batch]()
     
-    public init(provider: Web3Provider, queue: DispatchQueue, policy: DispatchPolicy) {
+    init(provider: Web3Provider, queue: DispatchQueue, policy: DispatchPolicy) {
         self.provider = provider
         self.queue = queue
         self.policy = policy
