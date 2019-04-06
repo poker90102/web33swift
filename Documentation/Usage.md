@@ -350,17 +350,8 @@ let blockNumber = try! web3.eth.getBlockNumber()
 ### Web3socketDelegate
 
 To receive messages from endpoint you need to create a class that adopt to Web3SocketDelegate protocol.
-Later, in order to open a connection to WebSocket server, you will use socket provider (WebsocketProvider or InfuraWebsocketProvider). And we recommend you to make it a property, so it doesn't get deallocated right after being setup.
 ```swift
-class DelegateClass: Web3SocketDelegate {
-	var socketProvider: WebsocketProvider? = nil // WebSocket Provider
-	var socketProvider: InfuraWebsocketProvider? = nil // Infura WebSocket Provider
-	
-	// Protocol method, here will be messages, received from WebSocket server
-	func received(message: Any) {
-        	// Make something with message
-    	}
-}
+let delegate: Web3SocketDelegate = DelegateClass() // Some delegate class which will receive messages from endpoint
 ``` 
 
 ### Custom Websocket Provider
@@ -369,7 +360,7 @@ class DelegateClass: Web3SocketDelegate {
 
 You can create WebsocketProvider and connect/disconnect it.
 ```swift
-socketProvider = WebsocketProvider("ws://your.endpoint", delegate: delegate)
+let socketProvider = WebsocketProvider("ws://your.endpoint", delegate: delegate)
 socketProvider.connectSocket()
 /// Some code
 /// ...
@@ -378,7 +369,7 @@ socketProvider.disconnectSocket()
 
 Or you can create already connected WebsocketProvider
 ```swift
-socketProvider = WebsocketProvider.connectToSocket("ws://your.endpoint", delegate: delegate)
+let socketProvider = WebsocketProvider.connectToSocket("ws://your.endpoint", delegate: delegate)
 ```
 
 #### Send message 
@@ -395,13 +386,13 @@ socketProvider.writeMessage(Data())
 #### Connect to Infura endpoint 
 
 ```swift
-socketProvider = InfuraWebsocketProvider.connectToInfuraSocket(.Mainnet, delegate: delegate)
+let socketProvider = InfuraWebsocketProvider.connectToInfuraSocket(.Mainnet, delegate: delegate)
 ```
 
 #### Connect to custom endpoint with API similar to Infura WSS endpoint
 
 ```swift
-socketProvider = InfuraWebsocketProvider.connectToSocket("ws://your.endpoint", delegate: delegate)
+let socketProvider = InfuraWebsocketProvider.connectToSocket("ws://your.endpoint", delegate: delegate)
 ```
 
 #### Create a filter in the node to notify when something happened
