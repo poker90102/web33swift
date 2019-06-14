@@ -112,22 +112,14 @@ public struct EthereumTransaction: CustomStringConvertible {
         if (self.r == BigUInt(0) && self.s == BigUInt(0)) {
             return nil
         }
-        var normalizedV:BigUInt = BigUInt(27)
+        var normalizedV:BigUInt = BigUInt(0)
         let inferedChainID = self.inferedChainID
-        var d = BigUInt(0)
-        if self.v >= 35 && self.v <= 38 {
-            d = BigUInt(35)
-        } else if self.v >= 31 && self.v <= 34 {
-            d = BigUInt(31)
-        } else if self.v >= 27 && self.v <= 30 {
-            d = BigUInt(27)
-        }
         if (self.chainID != nil && self.chainID != BigUInt(0)) {
-            normalizedV = self.v - d - self.chainID! - self.chainID!
+            normalizedV = self.v - BigUInt(35) - self.chainID! - self.chainID!
         } else if (inferedChainID != nil) {
-            normalizedV = self.v - d - inferedChainID! - inferedChainID!
+            normalizedV = self.v - BigUInt(35) - inferedChainID! - inferedChainID!
         } else {
-            normalizedV = self.v - d
+            normalizedV = self.v - BigUInt(27)
         }
         guard let vData = normalizedV.serialize().setLengthLeft(1) else {return nil}
         guard let rData = r.serialize().setLengthLeft(32) else {return nil}

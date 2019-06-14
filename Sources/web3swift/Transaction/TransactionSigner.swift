@@ -52,15 +52,7 @@ public struct Web3Signer {
                 return false
             }
             let originalPublicKey = SECP256K1.privateToPublic(privateKey: privateKey)
-            var d = BigUInt(0)
-            if unmarshalledSignature.v >= 0 && unmarshalledSignature.v <= 3 {
-                d = BigUInt(35)
-            } else if unmarshalledSignature.v >= 27 && unmarshalledSignature.v <= 30 {
-                d = BigUInt(8)
-            } else if unmarshalledSignature.v >= 31 && unmarshalledSignature.v <= 34 {
-                d = BigUInt(4)
-            }
-            transaction.v = BigUInt(unmarshalledSignature.v) + d + chainID + chainID
+            transaction.v = BigUInt(unmarshalledSignature.v) + BigUInt(35) + chainID + chainID
             transaction.r = BigUInt(Data(unmarshalledSignature.r))
             transaction.s = BigUInt(Data(unmarshalledSignature.s))
             let recoveredPublicKey = transaction.recoverPublicKey()
@@ -91,16 +83,7 @@ public struct Web3Signer {
             }
             let originalPublicKey = SECP256K1.privateToPublic(privateKey: privateKey)
             transaction.chainID = nil
-            var d = BigUInt(0)
-            var a = BigUInt(0)
-            if unmarshalledSignature.v >= 0 && unmarshalledSignature.v <= 3 {
-                d = BigUInt(27)
-            } else if unmarshalledSignature.v >= 31 && unmarshalledSignature.v <= 34 {
-                a = BigUInt(4)
-            } else if unmarshalledSignature.v >= 35 && unmarshalledSignature.v <= 38 {
-                a = BigUInt(8)
-            }
-            transaction.v = BigUInt(unmarshalledSignature.v) + d - a
+            transaction.v = BigUInt(unmarshalledSignature.v) + BigUInt(27)
             transaction.r = BigUInt(Data(unmarshalledSignature.r))
             transaction.s = BigUInt(Data(unmarshalledSignature.s))
             let recoveredPublicKey = transaction.recoverPublicKey()
