@@ -1,17 +1,14 @@
-## Important notice:
-### We have been supporting this library for the [last 2 years](https://github.com/matter-labs/web3swift/graphs/contributors), and now we are moving forward with our main tasks and need help with the future [support of this side project](https://github.com/matter-labs/web3swift/issues/231).
-
->If you are interested  to help - please [**drop a comment into  issue #231 🙏**](https://github.com/matter-labs/web3swift/issues/231).
-
-
-> Sincerely,
->
-> **Alex Vlasov** (@shamatar), **Anton Grigorev** (@baldyash) & **Petr Korolev** (@skywinder)
-
-![matter-github-swift](https://github.com/matter-labs/web3swift/blob/develop/web3swift-logo.png)
-
 # web3swift
 
+## Important notice:
+
+### [We’re participating in the @gitcoin Grants CLR Round 4](https://gitcoin.co/grants/358/web3swift )
+
+### Drop a few $ into this grant and leverage your power to help. #QuadraticFunding makes every donated DAI count! 💸
+
+Cheers! <https://gitcoin.co/grants/358/web3swift >
+
+![matter-github-swift](https://github.com/matter-labs/web3swift/blob/develop/web3swift-logo.png)
 [![Build Status](https://travis-ci.com/matter-labs/web3swift.svg?branch=develop)](https://travis-ci.com/matter-labs/web3swift)
 [![Swift](https://img.shields.io/badge/Swift-5.0-orange.svg?style=flat)](https://developer.apple.com/swift/)
 [![Platform](https://img.shields.io/cocoapods/p/web3swift.svg?style=flat)](http://cocoapods.org/pods/web3.swift.pod)
