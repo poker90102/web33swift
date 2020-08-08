@@ -6,6 +6,7 @@
 //  Copyright © 2017 Samaritan. All rights reserved.
 //
 
+import UIKit
 import WebKit
 
 /// Bridge for WKWebView and JavaScript
@@ -196,7 +197,7 @@ public extension WKWebView {
     }
     
     /// Bridge for WKWebView and JavaScript. Initialize `lazy`
-    var bridge: Bridge {
+    public var bridge: Bridge {
         if let bridge = objc_getAssociatedObject(self, &STPrivateStatic.bridgeKey) as? Bridge {
             return bridge
         }
@@ -206,7 +207,7 @@ public extension WKWebView {
     }
     
     /// Remove Bridge And Reset, All the handlers will be removed
-    func removeBridge() {
+    public func removeBridge() {
         if let bridge = objc_getAssociatedObject(self, &STPrivateStatic.bridgeKey) as? Bridge {
             let userContentController = bridge.configuration.userContentController
             userContentController.removeScriptMessageHandler(forName: Bridge.name)
@@ -217,7 +218,7 @@ public extension WKWebView {
 
 fileprivate extension WKWebView {
     
-    func st_dispatchBridgeEvent(_ eventName: String,
+    fileprivate func st_dispatchBridgeEvent(_ eventName: String,
                                             parameters: [String: Any],
                                             results: Bridge.Results,
                                             completionHandler: ((Any?, Error?) -> Void)? = nil) {

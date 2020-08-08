@@ -6,6 +6,7 @@
 //  Copyright © 2020 Matter Labs. All rights reserved.
 //
 
+import UIKit
 import WebKit
 
 open class BrowserViewController: UIViewController {
