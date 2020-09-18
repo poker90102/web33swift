@@ -17,18 +17,19 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
-- [Design Decisions](#design-decisions)
-- [Projects that using web3swift](#projects-that-using-web3swift)
 - [Installation](#installation)
   - [Requirements](#requirements)
   - [Migration Guides](#migration-guides)
 - [Documentation](#documentation)
   - [Examples](#examples)
+    - [Web3View example](#web3view-example)
 - [FAQ](#faq)
-- [Credits](#credits)
-  - [What we have already done](#what-we-have-already-done)
-  - [Future steps](#future-steps)
+  - [Core features:](#core-features)
+- [Projects that are using web3swift](#projects-that-are-using-web3swift)
+- [Support](#support)
 - [Contribute](#contribute)
+  - [Future steps](#future-steps)
+- [Credits](#credits)
 - [Security Disclosure](#security-disclosure)
 - [License](#license)
 
@@ -179,6 +180,7 @@ If you are using this library in your project, please [add a link](https://githu
 * [Follow_iOS](https://github.com/FollowInc/Follow_iOS)
 * [Biomedical Data Sharing dApp - Geolocation](https://github.com/HD2i/Geolocation-iOS)
 * [Alice Wallet](https://github.com/alicedapp/AliceX)
+* [web3-react-native](https://github.com/cawfree/web3-react-native)
 * [YOUR APP CAN BE THERE (click me)](https://github.com/matter-labs/web3swift/edit/develop/README.md) :wink:
 
 *Nothing makes developers happier than seeing someone else use our work and go wild with it.*
