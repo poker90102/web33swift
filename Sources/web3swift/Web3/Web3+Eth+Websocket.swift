@@ -5,11 +5,10 @@
 //  Created by Anton on 03/04/2019.
 //  Copyright © 2019 The Matter Inc. All rights reserved.
 //
-import Foundation
-import BigInt
-import PromiseKit
 import Starscream
-
+import PromiseKit
+import BigInt
+import Foundation
 
 extension web3.Eth {
     
