@@ -11,8 +11,6 @@ import CryptoSwift
 
 class web3swift_Keystores_tests: XCTestCase {
     
-    let mnemonic = "fruit wave dwarf banana earth journey tattoo true farm silk olive fence"
-    
     func testBIP39 () {
         var entropy = Data.fromHex("00000000000000000000000000000000")!
         var phrase = BIP39.generateMnemonicsFromEntropy(entropy: entropy)
@@ -90,6 +88,7 @@ class web3swift_Keystores_tests: XCTestCase {
     }
     
     func testBIP32keystoreMatching() {
+        let mnemonic = "fruit wave dwarf banana earth journey tattoo true farm silk olive fence"
         let keystore = try! BIP32Keystore(mnemonics: mnemonic, password: "", mnemonicsPassword: "banana")
         XCTAssertNotNil(keystore)
         let account = keystore!.addresses![0]
@@ -99,6 +98,7 @@ class web3swift_Keystores_tests: XCTestCase {
     }
     
     func testBIP32keystoreMatchingRootNode() {
+        let mnemonic = "fruit wave dwarf banana earth journey tattoo true farm silk olive fence"
         let keystore = try! BIP32Keystore(mnemonics: mnemonic, password: "", mnemonicsPassword: "banana")
         XCTAssertNotNil(keystore)
         let rootNode = try! keystore!.serializeRootNodeToString(password: "")
@@ -106,6 +106,7 @@ class web3swift_Keystores_tests: XCTestCase {
     }
     
     func testBIP32keystoreCustomPathMatching() {
+        let mnemonic = "fruit wave dwarf banana earth journey tattoo true farm silk olive fence"
         let keystore = try! BIP32Keystore(mnemonics: mnemonic, password: "", mnemonicsPassword: "banana", prefixPath:"m/44'/60'/0'/0")
         XCTAssertNotNil(keystore)
         let account = keystore!.addresses![0]
@@ -155,8 +156,8 @@ class web3swift_Keystores_tests: XCTestCase {
         print(recreatedStore!.addresses![0].address)
         print(recreatedStore!.addresses![1].address)
         // This will fail. It wont fail if use scrypt from pod 'scrypt', '2.0', not from CryptoSwift
-        XCTAssert(keystore?.addresses![1] == recreatedStore?.addresses![1])
-        XCTAssert(keystore?.addresses![0] == recreatedStore?.addresses![0])
+        XCTAssert(keystore?.addresses![0] == recreatedStore?.addresses![1])
+        XCTAssert(keystore?.addresses![1] == recreatedStore?.addresses![0])
     }
     
     //    func testPBKDF2() {
