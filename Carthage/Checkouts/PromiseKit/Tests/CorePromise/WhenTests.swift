@@ -218,8 +218,7 @@ class WhenTests: XCTestCase {
         let p2 = after(.milliseconds(100)).done { throw Error.straggler }
         let p3 = after(.milliseconds(200)).done { throw Error.straggler }
 
-        let whenFulfilledP1P2P3: Promise<(Void, Void, Void)> = when(fulfilled: p1, p2, p3)
-        whenFulfilledP1P2P3.catch { error -> Void in
+        when(fulfilled: p1, p2, p3).catch { error -> Void in
             XCTAssertTrue(Error.test == error as? Error)
             ex1.fulfill()
         }
@@ -242,8 +241,7 @@ class WhenTests: XCTestCase {
         let p2 = Promise<Void>(error: Error.test2)
         let p3 = Promise<Void>(error: Error.test3)
 
-        let whenFulfilledP1P2P3: Promise<Void> = when(fulfilled: p1, p2, p3)
-        whenFulfilledP1P2P3.catch { error in
+        when(fulfilled: p1, p2, p3).catch { error in
             XCTAssertTrue(error as? Error == Error.test1)
             ex.fulfill()
         }
