@@ -16,18 +16,23 @@
 
 #if canImport(Darwin)
 import Darwin
-#elseif canImport(Glibc)
+#else
 import Glibc
-#elseif canImport(ucrt)
-import ucrt
 #endif
 
+/* array of bits */
+extension Int {
+    init(bits: [Bit]) {
+        self.init(bitPattern: integerFrom(bits) as UInt)
+    }
+}
+
 extension FixedWidthInteger {
-  @inlinable
-  func bytes(totalBytes: Int = MemoryLayout<Self>.size) -> Array<UInt8> {
-    arrayOfBytes(value: self.littleEndian, length: totalBytes)
-    // TODO: adjust bytes order
-    // var value = self.littleEndian
-    // return withUnsafeBytes(of: &value, Array.init).reversed()
-  }
+    @_transparent
+    func bytes(totalBytes: Int = MemoryLayout<Self>.size) -> Array<UInt8> {
+        return arrayOfBytes(value: self.littleEndian, length: totalBytes)
+        // TODO: adjust bytes order
+        // var value = self.littleEndian
+        // return withUnsafeBytes(of: &value, Array.init).reversed()
+    }
 }
