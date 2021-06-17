@@ -1,10 +1,10 @@
 import XCTest
 
-import APlus
+import A_
 import CorePromise
 
 var tests = [XCTestCaseEntry]()
-tests += APlus.__allTests()
+tests += A_.__allTests()
 tests += CorePromise.__allTests()
 
 XCTMain(tests)

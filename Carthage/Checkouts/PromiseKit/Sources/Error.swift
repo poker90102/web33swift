@@ -32,9 +32,6 @@ public enum PMKError: Error {
      Also used if all values of this collection failed the test passed to `firstValue(where:)`.
      */
     case emptySequence
-
-    /// no winner in `race(fulfilled:)`
-    case noWinner
 }
 
 extension PMKError: CustomDebugStringConvertible {
@@ -54,8 +51,6 @@ extension PMKError: CustomDebugStringConvertible {
             return "The asynchronous sequence was cancelled"
         case .emptySequence:
             return "The first or last element was requested for an empty sequence"
-        case .noWinner:
-            return "All thenables passed to race(fulfilled:) were rejected"
         }
     }
 }
@@ -87,16 +82,13 @@ extension Error {
             return true
         } catch CocoaError.userCancelled {
             return true
-        } catch let error as NSError {
-            #if os(macOS) || os(iOS) || os(tvOS) || os(watchOS)
-                let domain = error.domain
-                let code = error.code
-                return ("SKErrorDomain", 2) == (domain, code)
-            #else
-                return false
-            #endif
         } catch {
+        #if os(macOS) || os(iOS) || os(tvOS)
+            let pair = { ($0.domain, $0.code) }(error as NSError)
+            return ("SKErrorDomain", 2) == pair
+        #else
             return false
+        #endif
         }
     }
 }

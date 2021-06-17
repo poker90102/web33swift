@@ -21,7 +21,6 @@ extension UInt64 {
   }
 
   @_specialize(where T == ArraySlice<UInt8>)
-  @inlinable
   init<T: Collection>(bytes: T, fromIndex index: T.Index) where T.Element == UInt8, T.Index == Int {
     if bytes.isEmpty {
       self = 0
