@@ -68,7 +68,7 @@
 
 ## Installation
 
-### CocoaPods
+- CocoaPods
 
 [CocoaPods](http://cocoapods.org) is a dependency manager for Cocoa projects. You can install it with the following command:
 
@@ -96,7 +96,7 @@ Then, run the following command:
 $ pod install
 ```
 
-### Carthage
+- Carthage
 
 [Carthage](https://github.com/Carthage/Carthage) is a decentralized dependency manager that builds your dependencies and provides you with binary frameworks.
 
@@ -121,25 +121,17 @@ Add the following line to the Cartfile and save it:
 github "matter-labs/web3swift" "master"
 ```
 
-Run `carthage update --no-use-binaries --platform iOS` to build the framework. By default, Carthage performs checkouts and creates a new directory 'Carthage' in the same location as your Cartfile. Open this directory, go to 'Build' directory, choose iOS or macOS directory, and use the selected directory framework in your Xcode project.
+Run `carthage update` to build the framework. By default, Carthage performs checkouts and creates a new directory 'Carthage' in the same location as your Cartfile. Open this directory, go to 'Build' directory, choose iOS or macOS directory, and use the selected directory framework in your Xcode project.
 
-
-
-### Swift Package
+- Swift Package
 Open xcode setting and add this repo as a source
 
 ### Example usage
 
-In the imports section:
-
-```swift
-import web3swift
-```
 
 ##### Send Ether
 
-```
-
+```swift
 let value: String = "1.0" // In Ether
 let walletAddress = EthereumAddress(wallet.address)! // Your wallet address
 let toAddress = EthereumAddress(toAddressString)!
@@ -228,14 +220,8 @@ open ./web3swiftBrowser.xcworkspace
 
 ### Build from source
 
-1. Clone repo `git clone https://github.com/skywinder/web3swift`
-
-2. Install dependencies
-- `carthage update --no-use-binaries --platform iOS`
-- *Workaround that works with both Xcode 11 and 12*: 
-    - via  `./carthage-build.sh update --no-use-binaries --platform iOS` ( workaround, for of Carthage bug. [For details please look at this comment](https://github.com/Carthage/Carthage/issues/3019#issuecomment-665136323)
-3. `open web3swift.xcworkspace`
-4. choose target `web3swift` and build it
+- Clone repo
+- Instal dependencies via  `./carthage-build.sh --platform iOS` (temp workaround, foe of Carthage bug. [For details please look at](https://github.com/Carthage/Carthage/issues/3019#issuecomment-665136323)
 
 ### Requirements
 
