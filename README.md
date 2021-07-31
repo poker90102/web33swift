@@ -121,9 +121,11 @@ Add the following line to the Cartfile and save it:
 github "skywinder/web3swift" "master"
 ```
 
-Run `carthage update` to build the framework. By default, Carthage performs checkouts and creates a new directory 'Carthage' in the same location as your Cartfile. Open this directory, go to 'Build' directory, choose iOS or macOS directory, and use the selected directory framework in your Xcode project.
+Run `carthage update --no-use-binaries --platform iOS` to build the framework. By default, Carthage performs checkouts and creates a new directory 'Carthage' in the same location as your Cartfile. Open this directory, go to 'Build' directory, choose iOS or macOS directory, and use the selected directory framework in your Xcode project.
 
-- Swift Package
+
+
+### Swift Package
 Open xcode setting and add this repo as a source
 
 ### Example usage
@@ -136,8 +138,7 @@ import web3swift
 
 ##### Send Ether
 
-```
-
+```swift
 let value: String = "1.0" // In Ether
 let walletAddress = EthereumAddress(wallet.address)! // Your wallet address
 let toAddress = EthereumAddress(toAddressString)!
@@ -149,10 +150,10 @@ options.from = walletAddress
 options.gasPrice = .automatic
 options.gasLimit = .automatic
 let tx = contract.write(
-    "fallback",
-    parameters: [AnyObject](),
-    extraData: Data(),
-    transactionOptions: options)!
+"fallback",
+parameters: [AnyObject](),
+extraData: Data(),
+transactionOptions: options)!
 ```
 
 ##### Send ERC-20 Token
@@ -172,10 +173,10 @@ options.gasPrice = .automatic
 options.gasLimit = .automatic
 let method = "transfer"
 let tx = contract.write(
-    method,
-    parameters: [toAddress, amount] as [AnyObject],
-    extraData: Data(),
-    transactionOptions: options)!
+  method,
+  parameters: [toAddress, amount] as [AnyObject],
+  extraData: Data(),
+  transactionOptions: options)!
 ```
 
 
@@ -207,10 +208,79 @@ options.from = walletAddress
 options.gasPrice = .automatic
 options.gasLimit = .automatic
 let tx = contract.write(
-    contractMethod,
-    parameters: parameters,
-    extraData: extraData,
-    transactionOptions: options)!
+  contractMethod,
+  parameters: parameters,
+  extraData: extraData,
+  transactionOptions: options)!
+```
+
+
+####  Write Transaction with your custom contract ABI
+#### Requirement : Your custom contract ABI string
+```Code
+    func contractTransactionMethod(){
+        let yourCoin = self.yourbalance.text ?? "0.0" //Get token for sending
+        let userDir = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] //get user directory for keystore
+        if (FileManager.default.fileExists(atPath: userDir + "/keystore/key.json")) {
+            //Create Keystore
+            guard let manager = FilestoreWrapper.getKeystoreManager() else {
+                print("Manager not found ")
+                return
+            }
+            wethioKeystoreManager = manager
+            guard let urlStr = URL(string: "Your rpc url here") else { return }
+            guard let kManager = yourKeystoreManager else { return }
+            
+            //Create Web3Provider Instance with key manager
+            web3ProvideInstance = Web3HttpProvider(urlStr, keystoreManager: kManager)
+            guard let wProvier = self.web3ProvideInstance else {return}
+            self.web3Instance = Web3(provider: wProvier) //Set provide instance with web3
+            guard let wInstance = self.web3Instance else {return}
+            self.receiverAddressString = self.walletAddressTF.text //get receiver address string
+            print("Receiver address is : ", self.receiverAddressString ?? " ")
+            self.etheriumAccountAddress = self.wethioKeystoreManager?.addresses.first?.address  //get sender address in string
+            /*
+            convert address string into etherium addresss
+            */
+            let senderEthAddress = EthereumAddress(self.etheriumAccountAddress ?? "")
+            //Run on backgrounnd tread
+            DispatchQueue.global(qos: .background).async {
+                do {
+                    //Convert receiver address in to etherium address
+                    let toaddress = EthereumAddress(self.receiverAddressString ?? "")
+                    var options = Web3Options.defaultOptions() //Create web3 options
+                    let amountDouble = BigInt((Double(yourCoin) ?? 0.1)*pow(10, 18)) //Convert amount into BIGINT
+                    print("Total amount in double value : ", amountDouble)
+                    var amount = BigUInt.init(amountDouble) //Convert amount in BIG UI Int
+                    let estimateGasPrice = try wInstance.eth.getGasPrice() //estimate gas price
+                    
+                    guard let eGasReult = self.estimatedGasResult else {
+                        print("Unable to find gas price")
+                        return
+                    }
+                    let nonce = try wInstance.eth.getTransactionCount(address: senderEthAddress) //Get nonce or transaction count
+                    print("Is the Transaction count", nonce)
+                    let fee = estimateGasPrice * eGasReult
+                    /*
+                     adding
+                     - sender address
+                     - Gas Result
+                     - Gas price
+                     - amount
+                     */
+                    var sendTransactionIntermediateOptions = Web3Options.defaultOptions()
+                    sendTransactionIntermediateOptions.from = senderEthAddress
+                    sendTransactionIntermediateOptions.gasLimit = eGasReult
+                    sendTransactionIntermediateOptions.gasPrice = estimateGasPrice
+                    var tokenTransactionIntermediate: TransactionIntermediate! //Create transaction intermediate
+                    tokenTransactionIntermediate = try wInstance.contract("Your custom contract ABI string", at: contractAddress).method("transfer", args: toaddress, amount, options: sendTransactionIntermediateOptions)
+                    let mainTransaction = try tokenTransactionIntermediate.send(options: sendTransactionIntermediateOptions, onBlock: "latest")
+                    print(mainTransaction.hash, "is the hash of your transaction")
+                }
+            }
+        }
+    }
+
 ```
 
 ### Web3View example
@@ -226,8 +296,28 @@ open ./web3swiftBrowser.xcworkspace
 
 ### Build from source
 
-- Clone repo
-- Install dependencies via  `./carthage-build.sh --platform iOS` (temp workaround, foe of Carthage bug. [For details please look at](https://github.com/Carthage/Carthage/issues/3019#issuecomment-665136323)
+### Default web3swift build
+
+1. Install carthage:
+```
+brew install carthage
+```
+2. Run carthage update:
+```
+# Available platforms: `iOS, macOS` 
+carthage update --platform iOS --use-xcframeworks
+```
+3.  Build project in XCode:
+`Command + B`
+
+### Build web3swift into .framework:
+```
+carthage build --no-skip-current --platform iOS
+```
+
+### In case of build errors, please check this solition
+
+- Install dependencies via  `./carthage-build.sh --platform iOS` (temp workaround, for of Carthage bug. [For details please look at](https://github.com/Carthage/Carthage/issues/3019#issuecomment-665136323)
 
 ### Requirements
 
@@ -274,6 +364,9 @@ If you are using this library in your project, please [add a link](https://githu
 * [Biomedical Data Sharing dApp - Geolocation](https://github.com/HD2i/Geolocation-iOS)
 * [Alice Wallet](https://github.com/alicedapp/AliceX)
 * [web3-react-native](https://github.com/cawfree/web3-react-native)
+* [ProLabArt](https://prolabart.com)
+<!-- Add your project below -->
+<!-- * [Project Name](link to projext) -->
 * [YOUR APP CAN BE THERE (click me)](https://github.com/skywinder/web3swift/edit/develop/README.md) :wink:
 
 *Nothing makes developers happier than seeing someone else use our work and go wild with it.*
@@ -320,7 +413,7 @@ You are more than welcome to participate! **Your contribution will be paid via  
 
 - [ ] Convenient methods for namespaces
 
-  
+
 
 ## Credits
 
