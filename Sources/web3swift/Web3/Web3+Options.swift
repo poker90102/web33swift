@@ -125,7 +125,7 @@ public struct TransactionOptions {
     public static func fromJSON(_ json: [String: Any]) -> TransactionOptions? {
         var options = TransactionOptions()
         if let gas = json["gas"] as? String, let gasBiguint = BigUInt(gas.stripHexPrefix().lowercased(), radix: 16) {
-            options.gasLimit = .manual(gasBiguint)
+            options.gasLimit = .limited(gasBiguint)
         } else if let gasLimit = json["gasLimit"] as? String, let gasgasLimitBiguint = BigUInt(gasLimit.stripHexPrefix().lowercased(), radix: 16) {
             options.gasLimit = .limited(gasgasLimitBiguint)
         } else {
