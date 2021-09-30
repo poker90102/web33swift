@@ -26,6 +26,7 @@ class GuaranteeTests: XCTestCase {
         wait(for: [ex], timeout: 10)
     }
 
+    #if swift(>=4) && !swift(>=5.2)
     func testMapByKeyPath() {
         let ex = expectation(description: "")
 
@@ -36,6 +37,7 @@ class GuaranteeTests: XCTestCase {
 
         wait(for: [ex], timeout: 10)
     }
+    #endif
 
     func testWait() {
         XCTAssertEqual(after(.milliseconds(100)).map(on: nil){ 1 }.wait(), 1)
@@ -54,6 +56,7 @@ class GuaranteeTests: XCTestCase {
         wait(for: [ex], timeout: 10)
     }
 
+    #if swift(>=4) && !swift(>=5.2)
     func testMapValuesByKeyPath() {
         let ex = expectation(description: "")
 
@@ -66,6 +69,7 @@ class GuaranteeTests: XCTestCase {
 
         wait(for: [ex], timeout: 10)
     }
+    #endif
 
     func testFlatMapValues() {
         let ex = expectation(description: "")
@@ -93,6 +97,7 @@ class GuaranteeTests: XCTestCase {
         wait(for: [ex], timeout: 10)
     }
 
+    #if swift(>=4) && !swift(>=5.2)
     func testCompactMapValuesByKeyPath() {
         let ex = expectation(description: "")
 
@@ -105,6 +110,7 @@ class GuaranteeTests: XCTestCase {
 
         wait(for: [ex], timeout: 10)
     }
+    #endif
 
     func testThenMap() {
 
@@ -148,6 +154,7 @@ class GuaranteeTests: XCTestCase {
         wait(for: [ex], timeout: 10)
     }
 
+    #if swift(>=4) && !swift(>=5.2)
     func testFilterValuesByKeyPath() {
 
         let ex = expectation(description: "")
@@ -161,6 +168,7 @@ class GuaranteeTests: XCTestCase {
 
         wait(for: [ex], timeout: 10)
     }
+    #endif
 
     func testSorted() {
 

@@ -24,22 +24,7 @@ extension web3.Eth {
                     }
                     throw Web3Error.nodeError(desc: "Invalid value from Ethereum node")
                 }
-                
-                if let policy = transactionOptions?.gasLimit {
-                    switch policy {
-                    case .automatic:
-                        return value
-                    case .limited(let limitValue):
-                        return limitValue < value ? limitValue: value
-                    case .manual(let exactValue):
-                        return exactValue
-                    case .withMargin:
-                        // MARK: - update value according margin
-                        return value
-                    }
-                } else {
-                    return value
-                }
+                return value
             }
         } catch {
             let returnPromise = Promise<BigUInt>.pending()

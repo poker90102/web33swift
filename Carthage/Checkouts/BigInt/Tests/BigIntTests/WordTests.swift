@@ -9,12 +9,11 @@
 import XCTest
 @testable import BigInt
 
-// TODO: Return to `where Word.Magnitude == Word` when SR-13491 is resolved
-struct TestDivision<Word: FixedWidthInteger> {
+struct TestDivision<Word: FixedWidthInteger> where Word.Magnitude == Word {
     static func testDivision(_ u: (high: Word, low: Word.Magnitude), _ v: Word) {
         let (div, mod) = v.fastDividingFullWidth(u)
         var (ph, pl) = div.multipliedFullWidth(by: v)
-        let (s, o) = pl.addingReportingOverflow((mod as! Word.Magnitude))
+        let (s, o) = pl.addingReportingOverflow(mod)
         pl = s
         if o { ph += Word(1) }
 

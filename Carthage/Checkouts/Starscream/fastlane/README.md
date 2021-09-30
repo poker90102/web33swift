@@ -20,7 +20,7 @@ or alternatively using `brew cask install fastlane`
 ```
 fastlane ios release
 ```
-Deploy new version
+Depoy new version
 
 ----
 

@@ -17,9 +17,7 @@ extension CancellationTests {
     //   `swift test --generate-linuxmain`
     // to regenerate.
     static let __allTests__CancellationTests = [
-        ("testBridgeToNSError", testBridgeToNSError),
         ("testCancellation", testCancellation),
-        ("testDoesntCrashSwift", testDoesntCrashSwift),
         ("testFoundationBridging1", testFoundationBridging1),
         ("testFoundationBridging2", testFoundationBridging2),
         ("testIsCancelled", testIsCancelled),
@@ -163,9 +161,6 @@ extension RaceTests {
         ("test2", test2),
         ("test2Array", test2Array),
         ("testEmptyArray", testEmptyArray),
-        ("testFulfilled", testFulfilled),
-        ("testFulfilledEmptyArray", testFulfilledEmptyArray),
-        ("testFulfilledWithNoWinner", testFulfilledWithNoWinner),
     ]
 }
 
@@ -229,7 +224,6 @@ extension WhenConcurrentTestCase_Swift {
         ("testWhenConcurrencyLessThanZero", testWhenConcurrencyLessThanZero),
         ("testWhenEmptyGenerator", testWhenEmptyGenerator),
         ("testWhenGeneratorError", testWhenGeneratorError),
-        ("testWhenResolvedContinuesWhenRejected", testWhenResolvedContinuesWhenRejected),
     ]
 }
 
@@ -267,8 +261,6 @@ extension WrapTests {
         ("testNonOptionalFirstParameter", testNonOptionalFirstParameter),
         ("testPendingPromiseDeallocated", testPendingPromiseDeallocated),
         ("testSuccess", testSuccess),
-        ("testSwiftResultError", testSwiftResultError),
-        ("testSwiftResultSuccess", testSwiftResultSuccess),
         ("testVoidCompletionValue", testVoidCompletionValue),
         ("testVoidResolverFulfillAmbiguity", testVoidResolverFulfillAmbiguity),
     ]
