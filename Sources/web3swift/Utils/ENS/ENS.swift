@@ -148,7 +148,7 @@ public class ENS {
         return result
     }
     
-    public func getContent(forNode node: String) throws -> Data {
+    public func getContent(forNode node: String) throws -> String {
         guard let resolver = try? self.registry.getResolver(forDomain: node) else {
             throw Web3Error.processingError(desc: "Failed to get resolver for domain")
         }
