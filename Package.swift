@@ -1,4 +1,4 @@
-// swift-tools-version:5.4
+// swift-tools-version:5.5
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -29,7 +29,6 @@ let package = Package(
     ],
     targets: [
         .target(name: "secp256k1"),
-
         .target(
             name: "web3swift",
             dependencies: ["BigInt", "secp256k1", "PromiseKit", "Starscream", "CryptoSwift"],
