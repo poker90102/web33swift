@@ -8,7 +8,6 @@
 
 import WebKit
 
-// FIXME: Rewrite me, because i'm building only on iOS.
 open class BrowserViewController: UIViewController {
     
     public enum Method: String {
