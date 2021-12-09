@@ -6,7 +6,6 @@ on:
       - master
       - develop
       - hotfix
-      - ganche-tests
     paths:
       - Sources/**
       - 'Tests/**'
