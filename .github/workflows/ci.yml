@@ -6,7 +6,6 @@ on:
       - master
       - develop
       - hotfix
-      - ganache-tests
     paths:
       - Sources/**
       - 'Tests/**'
@@ -32,8 +31,6 @@ jobs:
         run: swift build --build-tests
       # - name: Run local tests
       #   run: swift test --skip-build -c debug --filter localTests
-      # - name: Run remote tests
-      #   run: swift test --skip-build -c debug --filter remoteTests
   carthage:
     name: Carthage
     runs-on: macOS-11
@@ -55,5 +52,3 @@ jobs:
         run: xcodebuild build-for-testing -project "web3swift.xcodeproj" -scheme "web3swift" -destination "${{matrix.destination}}" -testPlan LocalTests
       # - name: Running local tests
       #   run: xcodebuild test-without-building -project "web3swift.xcodeproj" -scheme "web3swift" -destination "${{matrix.destination}}" -testPlan LocalTests
-      # - name: Running remote tests
-      #   run: xcodebuild test-without-building -project "web3swift.xcodeproj" -scheme "web3swift" -destination "${{matrix.destination}}" -testPlan RemoteTests
