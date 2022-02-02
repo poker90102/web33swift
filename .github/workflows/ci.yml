@@ -7,9 +7,6 @@ on:
       - develop
       - hotfix
     paths:
-      - Packag*.swift
-      - web3swift.podspec
-      - Cartfile
       - Sources/**
       - 'Tests/**'
       - 'web3swift*/**'
