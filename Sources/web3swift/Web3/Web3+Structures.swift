@@ -110,12 +110,20 @@ extension EthereumTransaction:Decodable {
         case r
         case s
         case value
+        case type  // present in EIP-1559 transaction objects
     }
     
     public init(from decoder: Decoder) throws {
         let options = try TransactionOptions(from: decoder)
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
+        // test to see if it is a EIP-1559 wrapper
+        let envelope = try decodeHexToBigUInt(container, key: .type, allowOptional: true)
+        if( (envelope != nil) && (envelope! != BigInt(0)) ) {
+            // if present and non-sero we are a new wrapper we can't decode
+            throw Web3Error.dataError
+        }
+
         var data = try decodeHexToData(container, key: .data, allowOptional: true)
         if data != nil {
             self.data = data!
@@ -458,7 +466,6 @@ public struct Block:Decodable {
     public var size: BigUInt
     public var gasLimit: BigUInt
     public var gasUsed: BigUInt
-    public var baseFeePerGas: BigUInt
     public var timestamp: Date
     public var transactions: [TransactionInBlock]
     public var uncles: [Data]
@@ -484,7 +491,6 @@ public struct Block:Decodable {
         case timestamp
         case transactions
         case uncles
-        case baseFeePerGas
     }
     
     public init(from decoder: Decoder) throws {
@@ -545,9 +551,6 @@ public struct Block:Decodable {
         
         guard let gasUsed = try decodeHexToBigUInt(container, key: .gasUsed) else {throw Web3Error.dataError}
         self.gasUsed = gasUsed
-        
-        guard let baseFeePerGas = try decodeHexToBigUInt(container, key: .baseFeePerGas) else { throw Web3Error.dataError }
-        self.baseFeePerGas = baseFeePerGas
         
         let timestampString = try container.decode(String.self, forKey: .timestamp).stripHexPrefix()
         guard let timestampInt = UInt64(timestampString, radix: 16) else {throw Web3Error.dataError}
