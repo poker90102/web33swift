@@ -14,6 +14,11 @@ public struct EthereumTransaction: CustomStringConvertible {
     public var nonce: BigUInt
     public var gasPrice: BigUInt = BigUInt(0)
     public var gasLimit: BigUInt = BigUInt(0)
+    
+    // EIP-1559
+    public var maxPriorityFeePerGas: BigUInt = BigUInt(0)
+    public var maxFeePerGas: BigUInt = BigUInt(0)
+    
     // The destination address of the message, left undefined for a contract-creation transaction.
     public var to: EthereumAddress
     // (optional) The value transferred for the transaction in wei, also the endowment if it’s a contract-creation transaction.
@@ -29,7 +34,7 @@ public struct EthereumTransaction: CustomStringConvertible {
         get{
             if (self.r == BigUInt(0) && self.s == BigUInt(0)) {
                 return self.v
-            } else if (self.v == BigUInt(27) || self.v == BigUInt(28) || self.v < BigUInt(35)) {
+            } else if (self.v == BigUInt(27) || self.v == BigUInt(28)) {
                 return nil
             } else {
                 return ((self.v - BigUInt(1)) / BigUInt(2)) - BigUInt(17)
@@ -90,6 +95,8 @@ public struct EthereumTransaction: CustomStringConvertible {
             toReturn = toReturn + "Nonce: " + String(self.nonce) + "\n"
             toReturn = toReturn + "Gas price: " + String(self.gasPrice) + "\n"
             toReturn = toReturn + "Gas limit: " + String(describing: self.gasLimit) + "\n"
+            toReturn = toReturn + "Max priority fee per gas: " + String(describing: self.maxPriorityFeePerGas)
+            toReturn = toReturn + "Max fee per gas: " + String(describing: maxFeePerGas)
             toReturn = toReturn + "To: " + self.to.address + "\n"
             toReturn = toReturn + "Value: " + String(self.value ?? "nil") + "\n"
             toReturn = toReturn + "Data: " + self.data.toHexString().addHexPrefix().lowercased() + "\n"
@@ -125,12 +132,11 @@ public struct EthereumTransaction: CustomStringConvertible {
         } else if self.v >= 27 && self.v <= 30 {
             d = BigUInt(27)
         }
-        if (self.chainID != nil && self.chainID != BigUInt(0) && self.v >= (d + self.chainID! + self.chainID!)) {
+        if (self.chainID != nil && self.chainID != BigUInt(0)) {
             normalizedV = self.v - d - self.chainID! - self.chainID!
-        } else if (inferedChainID != nil  && self.v >= (d + self.inferedChainID! + self.inferedChainID!)) {
+        } else if (inferedChainID != nil) {
             normalizedV = self.v - d - inferedChainID! - inferedChainID!
         } else {
-            if(d > v) { d = 0 }
             normalizedV = self.v - d
         }
         guard let vData = normalizedV.serialize().setLengthLeft(1) else {return nil}
