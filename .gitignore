@@ -5,7 +5,7 @@
 ## Build generated
 build/
 DerivedData/
-
+.build
 ## Various settings
 *.pbxuser
 !default.pbxuser
@@ -38,8 +38,6 @@ playground.xcworkspace
 Packages/
 Package.pins
 .build/
-.swiftpm/**
-*/.swiftpm/**
 
 # CocoaPods
 #
@@ -53,9 +51,8 @@ Package.pins
 # Carthage
 #
 # Add this line if you want to avoid checking in source code from Carthage dependencies.
-# Carthage/Checkouts
-
-#Carthage/Build
+Carthage/Checkouts
+Carthage/Build
 
 # fastlane
 #
