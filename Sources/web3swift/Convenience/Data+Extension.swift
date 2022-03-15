@@ -9,9 +9,8 @@ import Foundation
 public extension Data {
     
     init<T>(fromArray values: [T]) {
-        let values = values
-        let ptrUB = values.withUnsafeBufferPointer { (ptr: UnsafeBufferPointer) in return ptr }
-        self.init(buffer: ptrUB)
+        var values = values
+        self.init(buffer: UnsafeBufferPointer(start: &values, count: values.count))
     }
     
     func toArray<T>(type: T.Type) throws -> [T] {
