@@ -6,7 +6,6 @@ on:
       - master
       - develop
       - hotfix
-      - ganache-tests
     paths:
       - Packag*.swift
       - web3swift.podspec
@@ -33,14 +32,8 @@ jobs:
         run: swift package resolve
       - name: Build
         run: swift build --build-tests
-      - name: Install ganache
-        run: npm install ganache --global
-      - name: Start ganache in background
-        run: ganache &
-      - name: Wait till ganache starts
-        run: sleep 1
-      - name: Run local tests
-        run: swift test --skip-build -c debug --filter localTests
+      # - name: Run local tests
+      #   run: swift test --skip-build -c debug --filter localTests
   carthage:
     name: Carthage
     runs-on: macOS-11
@@ -60,13 +53,5 @@ jobs:
         run: carthage build --no-use-binaries --platform iOS Simulator --use-xcframeworks
       - name: Building framework
         run: xcodebuild build-for-testing -project "web3swift.xcodeproj" -scheme "web3swift" -destination "${{matrix.destination}}" -testPlan LocalTests
-      - name: Install ganache
-        run: npm install ganache --global
-      - name: Start ganache in background
-        run: ganache &
-      - name: Wait till ganache starts
-        run: sleep 1
-      - name: Running local tests
-        run: xcodebuild test-without-building -project "web3swift.xcodeproj" -scheme "web3swift" -destination "${{matrix.destination}}" -testPlan LocalTests
-      # - name: Running remote tests
-      #   run: xcodebuild test-without-building -project "web3swift.xcodeproj" -scheme "web3swift" -destination "${{matrix.destination}}" -testPlan RemoteTests
+      # - name: Running local tests
+      #   run: xcodebuild test-without-building -project "web3swift.xcodeproj" -scheme "web3swift" -destination "${{matrix.destination}}" -testPlan LocalTests
