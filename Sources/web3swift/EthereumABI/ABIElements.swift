@@ -44,7 +44,6 @@ public extension ABI {
         case fallback(Fallback)
         case event(Event)
         case receive(Receive)
-        case error(EthError)
         
         public enum StateMutability {
             case payable
@@ -153,21 +152,6 @@ public extension ABI {
                 self.payable = payable
             }
         }
-        /// Custom structured error type available since solidity 0.8.4
-        public struct EthError {
-            public let name: String
-            public let inputs: [Input]
-            
-            public struct Input {
-                public let name: String
-                public let type: ParameterType
-                
-                public init(name: String, type: ParameterType) {
-                    self.name = name
-                    self.type = type
-                }
-            }
-        }
     }
 }
 
@@ -188,8 +172,6 @@ extension ABI.Element {
             guard let data = ABIEncoder.encode(types: function.inputs, values: parameters) else {return nil}
             return signature + data
         case .receive(_):
-            return nil
-        case .error(_):
             return nil
         }
     }
@@ -267,8 +249,6 @@ extension ABI.Element {
             return returnArray
         case .receive(_):
             return nil
-        case .error(_):
-            return nil
         }
     }
     
@@ -343,8 +323,6 @@ extension ABI.Element {
             }
             return returnArray
         case .receive(_):
-            return nil
-        case .error(_):
             return nil
         }
     }
