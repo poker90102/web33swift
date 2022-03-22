@@ -87,7 +87,7 @@ public class ERC1155: IERC1155 {
             }.wait()
     }
     
-    public func safeTransferFrom(from: EthereumAddress, to: EthereumAddress, originalOwner: EthereumAddress, id: BigUInt, value: BigUInt, data: [UInt8]) throws -> WriteTransaction {
+    func safeTransferFrom(from: EthereumAddress, to: EthereumAddress, originalOwner: EthereumAddress, id: BigUInt, value: BigUInt, data: [UInt8]) throws -> WriteTransaction {
         let contract = self.contract
         var basicOptions = TransactionOptions()
         basicOptions.from = from
@@ -97,7 +97,7 @@ public class ERC1155: IERC1155 {
         return tx
     }
     
-    public func safeBatchTransferFrom(from: EthereumAddress, to: EthereumAddress, originalOwner: EthereumAddress, ids: [BigUInt], values: [BigUInt], data: [UInt8]) throws -> WriteTransaction {
+    func safeBatchTransferFrom(from: EthereumAddress, to: EthereumAddress, originalOwner: EthereumAddress, ids: [BigUInt], values: [BigUInt], data: [UInt8]) throws -> WriteTransaction {
         let contract = self.contract
         var basicOptions = TransactionOptions()
         basicOptions.from = from
@@ -107,7 +107,7 @@ public class ERC1155: IERC1155 {
         return tx
     }
     
-    public func balanceOf(account: EthereumAddress, id: BigUInt) throws -> BigUInt {
+    func balanceOf(account: EthereumAddress, id: BigUInt) throws -> BigUInt {
         let contract = self.contract
         var transactionOptions = TransactionOptions()
         transactionOptions.callOnBlock = .latest
@@ -116,7 +116,7 @@ public class ERC1155: IERC1155 {
         return res
     }
     
-    public func setApprovalForAll(from: EthereumAddress, operator user: EthereumAddress, approved: Bool, scope: Data) throws -> WriteTransaction {
+    func setApprovalForAll(from: EthereumAddress, operator user: EthereumAddress, approved: Bool, scope: Data) throws -> WriteTransaction {
         let contract = self.contract
         var basicOptions = TransactionOptions()
         basicOptions.from = from
@@ -126,7 +126,7 @@ public class ERC1155: IERC1155 {
         return tx
     }
     
-    public func isApprovedForAll(owner: EthereumAddress, operator user: EthereumAddress, scope: Data) throws -> Bool {
+    func isApprovedForAll(owner: EthereumAddress, operator user: EthereumAddress, scope: Data) throws -> Bool {
         let contract = self.contract
         var basicOptions = TransactionOptions()
         basicOptions.callOnBlock = .latest
@@ -135,7 +135,7 @@ public class ERC1155: IERC1155 {
         return res
     }
     
-    public func supportsInterface(interfaceID: String) throws -> Bool {
+    func supportsInterface(interfaceID: String) throws -> Bool {
         let contract = self.contract
         var transactionOptions = TransactionOptions()
         transactionOptions.callOnBlock = .latest
